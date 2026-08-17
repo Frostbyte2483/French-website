@@ -1,0 +1,2251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>French Trainer — Accents, Vocabulary & Conjugation</title>
+<meta name="description" content="Learn French accented letters, everyday vocabulary, and present-tense conjugation — with flip cards, mnemonics, and a customizable quiz.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%232C4059'/%3E%3Ctext x='50' y='70' font-size='58' text-anchor='middle' fill='%23EDE8DC' font-family='Georgia,serif'%3E%C3%A9%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE8DC;
+    --paper-raised:#F6F3EA;
+    --ink:#221F1B;
+    --ink-soft:#5A554C;
+    --indigo:#2C4059;
+    --indigo-soft:#5C7089;
+    --vermilion:#B23A2C;
+    --gold:#B08D57;
+    --line: rgba(34,31,27,0.14);
+    --line-strong: rgba(34,31,27,0.28);
+  }
+  :root[data-theme="dark"]{
+    --paper:#1B1917;
+    --paper-raised:#242220;
+    --ink:#EDE8DC;
+    --ink-soft:#B5AFA2;
+    --indigo:#8CA3C4;
+    --indigo-soft:#6C84A6;
+    --vermilion:#E2604C;
+    --gold:#D4B172;
+    --line: rgba(237,232,220,0.14);
+    --line-strong: rgba(237,232,220,0.28);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    transition:background-color 0.2s ease, color 0.2s ease;
+  }
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:40px 24px 80px;
+  }
+  .masthead{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:18px;
+    margin-bottom:28px;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .masthead h1{
+    font-family:'Playfair Display', serif;
+    font-weight:800;
+    font-size:34px;
+    margin:0;
+    letter-spacing:0.01em;
+  }
+  .masthead h1 span{
+    color:var(--vermilion);
+  }
+  .masthead p{
+    margin:4px 0 0;
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .stamp{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:13px;
+    color:var(--vermilion);
+    border:1.5px solid var(--vermilion);
+    border-radius:3px;
+    padding:6px 12px;
+    white-space:nowrap;
+  }
+  .masthead-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .theme-toggle{
+    font-size:16px;
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    border:1.5px solid var(--line-strong);
+    background:var(--paper-raised);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--ink);
+    padding:0;
+  }
+  .theme-toggle:hover{ border-color:var(--ink); }
+
+  .customize-panel{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:20px;
+  }
+  .customize-panel-title{
+    font-family:'Playfair Display', serif;
+    font-size:15px;
+    font-weight:600;
+    color:var(--indigo);
+    margin-bottom:14px;
+  }
+  .customize-fields{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+    margin-bottom:16px;
+  }
+  .color-field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .color-field label{
+    font-size:11px;
+    font-weight:700;
+    color:var(--ink-soft);
+    letter-spacing:0.03em;
+  }
+  .color-field input[type=color]{
+    width:52px;
+    height:36px;
+    border:1.5px solid var(--line-strong);
+    border-radius:8px;
+    padding:2px;
+    background:var(--paper);
+    cursor:pointer;
+  }
+  .customize-presets{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  .customize-presets span{
+    font-size:11px;
+    color:var(--ink-soft);
+    font-weight:700;
+  }
+  .preset-swatch{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    border:1.5px solid var(--line-strong);
+    cursor:pointer;
+    padding:0;
+  }
+  .preset-swatch:hover{ border-color:var(--ink); }
+  .customize-panel-actions{
+    display:flex;
+    gap:16px;
+  }
+
+  .category-toggle{
+    display:flex;
+    gap:8px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+  }
+  .cat-btn{
+    flex:1;
+    min-width:120px;
+    font-family:'Work Sans', sans-serif;
+    font-size:13px;
+    font-weight:700;
+    padding:10px;
+    border:1.5px solid var(--line-strong);
+    border-radius:8px;
+    background:var(--paper-raised);
+    color:var(--ink-soft);
+    cursor:pointer;
+    text-align:center;
+  }
+  .cat-btn.active{
+    background:var(--indigo);
+    border-color:var(--indigo);
+    color:var(--paper);
+  }
+  .cat-btn:hover:not(.active){ border-color:var(--ink); }
+
+  .tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:24px;
+  }
+  .tab{
+    font-family:'Work Sans', sans-serif;
+    font-size:14px;
+    font-weight:700;
+    padding:10px 20px;
+    background:transparent;
+    border:1.5px solid var(--line-strong);
+    border-radius:20px;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all 0.15s ease;
+  }
+  .tab.active{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:var(--paper);
+  }
+  .tab:hover:not(.active){
+    border-color:var(--ink);
+    color:var(--ink);
+  }
+  .tab:focus-visible, .chip:focus-visible, .opt-btn:focus-visible, .card:focus-visible, .next-btn:focus-visible, .restart-btn:focus-visible, .theme-toggle:focus-visible, .mark-known-btn:focus-visible{
+    outline:2px solid var(--indigo);
+    outline-offset:2px;
+  }
+
+  .panel{ display:none; }
+  .panel.active{ display:block; }
+
+  /* filter row */
+  .filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:20px;
+  }
+  .chip{
+    font-size:12px;
+    font-weight:700;
+    padding:6px 12px;
+    border-radius:14px;
+    border:1px solid var(--line-strong);
+    background:var(--paper-raised);
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .chip.active{
+    background:var(--indigo);
+    border-color:var(--indigo);
+    color:var(--paper);
+  }
+
+  /* grid of cards */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(150px,1fr));
+    gap:10px;
+  }
+  .card{
+    position:relative;
+    aspect-ratio:1/1;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:6px;
+    cursor:pointer;
+    perspective:600px;
+  }
+  .card-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    transition:transform 0.45s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+  }
+  .card.flipped .card-inner{ transform:rotateY(180deg); }
+  .face{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    padding:8px;
+    text-align:center;
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .face-front{
+    background:var(--paper-raised);
+  }
+  .face-front .char{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:26px;
+    color:var(--ink);
+    line-height:1.15;
+  }
+  .face-front.is-letter .char{
+    font-size:44px;
+  }
+  .face-front .romaji-hint{
+    font-size:10px;
+    color:var(--ink-soft);
+    margin-top:6px;
+    letter-spacing:0.08em;
+    opacity:0.55;
+  }
+  .face-back{
+    background:var(--indigo);
+    color:var(--paper);
+    transform:rotateY(180deg);
+    overflow-y:auto;
+    scrollbar-width:thin;
+  }
+  .face-back .romaji{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:19px;
+    margin-bottom:5px;
+    flex-shrink:0;
+  }
+  .face-back .mnemonic{
+    font-size:10.5px;
+    line-height:1.4;
+    color:rgba(237,232,220,0.88);
+  }
+  .mark-known-btn{
+    margin-top:8px;
+    font-family:'Work Sans', sans-serif;
+    font-size:9.5px;
+    font-weight:700;
+    padding:4px 9px;
+    border-radius:10px;
+    border:1px solid rgba(237,232,220,0.5);
+    background:transparent;
+    color:var(--paper);
+    cursor:pointer;
+    letter-spacing:0.03em;
+    flex-shrink:0;
+  }
+  .mark-known-btn[aria-pressed="true"]{
+    background:var(--gold);
+    border-color:var(--gold);
+    color:var(--ink);
+  }
+  .card.known{ box-shadow: inset 0 0 0 2px var(--gold); }
+
+  .study-toggle-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:14px;
+  }
+
+  .progress-block{ margin-bottom:16px; }
+  .progress-label{
+    font-size:12px;
+    color:var(--ink-soft);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .progress-track{
+    width:100%;
+    height:8px;
+    background:var(--line);
+    border-radius:4px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--gold);
+    width:0%;
+    transition:width 0.3s ease;
+  }
+
+  .section-label{
+    font-family:'Playfair Display', serif;
+    font-size:15px;
+    font-weight:600;
+    color:var(--indigo);
+    margin:26px 0 10px;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--line);
+  }
+
+  /* quiz */
+  .quiz-box{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:36px 24px;
+    text-align:center;
+    max-width:520px;
+    margin:0 auto;
+  }
+  .quiz-stats{
+    display:flex;
+    justify-content:center;
+    gap:28px;
+    margin-bottom:22px;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  .quiz-stats b{
+    color:var(--ink);
+    font-size:16px;
+    display:block;
+    font-family:'Playfair Display', serif;
+  }
+  .quiz-char{
+    font-family:'Playfair Display', serif;
+    font-weight:800;
+    font-size:46px;
+    line-height:1.2;
+    margin:12px 0 28px;
+    color:var(--ink);
+  }
+  .quiz-options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:8px;
+  }
+  .opt-btn{
+    font-family:'Work Sans', sans-serif;
+    font-size:15px;
+    font-weight:700;
+    padding:14px;
+    background:var(--paper);
+    border:1.5px solid var(--line-strong);
+    border-radius:8px;
+    cursor:pointer;
+    color:var(--ink);
+    transition:all 0.12s ease;
+  }
+  .opt-btn:hover:not(:disabled){ border-color:var(--indigo); }
+  .opt-btn.correct{
+    background:#3B6D11;
+    border-color:#3B6D11;
+    color:#EAF3DE;
+  }
+  .opt-btn.wrong{
+    background:var(--vermilion);
+    border-color:var(--vermilion);
+    color:#FAECE7;
+  }
+  .opt-btn:disabled{ cursor:default; opacity:1; }
+
+  .quiz-type-answer{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-bottom:8px;
+  }
+  .type-input{
+    flex:1;
+    max-width:240px;
+    padding:14px;
+    font-size:16px;
+    font-family:'Work Sans', sans-serif;
+    border:1.5px solid var(--line-strong);
+    border-radius:8px;
+    background:var(--paper);
+    color:var(--ink);
+    text-align:center;
+  }
+  .type-input:focus-visible{
+    outline:2px solid var(--indigo);
+    outline-offset:2px;
+  }
+  .type-input.correct{
+    border-color:#3B6D11;
+    background:#EAF3DE;
+    color:#1f3d0a;
+  }
+  .type-input.wrong{
+    border-color:var(--vermilion);
+    background:#F7E3DF;
+    color:#5c1c12;
+  }
+  .type-submit-btn{
+    font-family:'Work Sans', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    padding:0 20px;
+    background:var(--indigo);
+    color:var(--paper);
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+  }
+  .type-submit-btn:hover:not(:disabled){ background:var(--indigo-soft); }
+  .type-submit-btn:disabled{ opacity:0.5; cursor:default; }
+  .quiz-feedback{
+    min-height:20px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:14px;
+  }
+  .next-btn{
+    margin-top:14px;
+    font-family:'Work Sans', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    padding:10px 22px;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+    display:none;
+  }
+  .restart-btn{
+    margin-top:18px;
+    font-size:12px;
+    color:var(--ink-soft);
+    background:none;
+    border:none;
+    text-decoration:underline;
+    cursor:pointer;
+  }
+
+  /* quiz setup screen */
+  .setup-block{
+    text-align:left;
+    margin-bottom:22px;
+  }
+  .setup-block .section-label{
+    margin-top:0;
+  }
+  .setup-count{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .setup-count input[type=number]{
+    width:84px;
+    padding:9px 10px;
+    border:1.5px solid var(--line-strong);
+    border-radius:6px;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-size:14px;
+  }
+  .setup-count input[type=number]:focus-visible{
+    outline:2px solid var(--indigo);
+    outline-offset:2px;
+  }
+  .setup-count input:disabled{ opacity:0.4; }
+  .setup-hint{
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+  .timer-toggle{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:13px;
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .timer-toggle input[type=checkbox]{
+    width:16px;
+    height:16px;
+    accent-color:var(--indigo);
+    cursor:pointer;
+  }
+
+  .kbd-hint{
+    font-size:11px;
+    color:var(--ink-soft);
+    opacity:0.75;
+    margin:6px 0 0;
+  }
+
+  .timer-bar-wrap{
+    width:100%;
+    height:6px;
+    background:var(--line);
+    border-radius:3px;
+    overflow:hidden;
+    margin-bottom:14px;
+  }
+  .timer-bar{
+    height:100%;
+    background:var(--indigo);
+    width:100%;
+    transition:width 0.1s linear, background-color 0.2s ease;
+  }
+  .timer-bar.low{ background:var(--vermilion); }
+  .start-btn{
+    font-family:'Work Sans', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    padding:12px 28px;
+    background:var(--indigo);
+    color:var(--paper);
+    border:none;
+    border-radius:24px;
+    cursor:pointer;
+  }
+  .start-btn:hover{ background:var(--indigo-soft); }
+
+  /* history / best score on setup screen */
+  .best-score-line{
+    font-size:13px;
+    color:var(--ink);
+    font-weight:700;
+  }
+  .history-list{ margin-top:8px; }
+  .history-item{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    padding:5px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .history-item:last-child{ border-bottom:none; }
+  .history-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin:0 0 10px;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--line);
+  }
+  .history-header .section-label{
+    margin:0;
+    padding-bottom:0;
+    border-bottom:none;
+  }
+  .history-actions{
+    display:flex;
+    gap:12px;
+  }
+  .text-btn{
+    font-size:11px;
+    font-weight:700;
+    color:var(--ink-soft);
+    background:none;
+    border:none;
+    text-decoration:underline;
+    cursor:pointer;
+    padding:0;
+    white-space:nowrap;
+  }
+  .text-btn:hover{ color:var(--ink); }
+
+  /* results screen */
+  .quiz-results{ text-align:left; }
+  .results-pct{
+    font-family:'Playfair Display', serif;
+    font-weight:800;
+    font-size:52px;
+    color:var(--indigo);
+    text-align:center;
+    line-height:1;
+  }
+  .results-summary{
+    text-align:center;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:8px 0 6px;
+  }
+  .results-streak{
+    text-align:center;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-bottom:22px;
+  }
+  .row-breakdown{ margin-bottom:20px; }
+  .row-breakdown-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:12.5px;
+    padding:7px 0;
+    border-bottom:1px solid var(--line);
+    color:var(--ink-soft);
+  }
+  .row-breakdown-item b{ color:var(--ink); }
+  .missed-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:12px 0 4px;
+  }
+  .missed-chip{
+    background:var(--paper);
+    border:1px solid var(--line-strong);
+    border-radius:6px;
+    padding:7px 10px;
+    text-align:center;
+    min-width:64px;
+  }
+  .missed-chip .mc-char{
+    font-family:'Playfair Display', serif;
+    font-size:14px;
+    color:var(--ink);
+  }
+  .missed-chip .mc-r{
+    font-size:10px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+  .results-actions{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:22px;
+  }
+  .results-actions .start-btn{ background:var(--vermilion); }
+  .results-actions .start-btn:hover{ background:#96301F; }
+  .results-actions .start-btn.secondary{ background:var(--ink); }
+  .results-actions .start-btn.secondary:hover{ background:#3a3630; }
+
+  footer{
+    margin-top:36px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    font-size:11px;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+
+  @media (max-width:520px){
+    .masthead h1{ font-size:26px; }
+    .quiz-char{ font-size:34px; }
+    .face-front .char{ font-size:20px; }
+    .face-front.is-letter .char{ font-size:34px; }
+    .grid{ grid-template-columns:repeat(auto-fill, minmax(120px,1fr)); }
+    .kbd-hint{ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .card-inner{ transition:none; }
+    .tab, .opt-btn{ transition:none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div>
+      <h1>Français<span>·</span>Trainer</h1>
+      <p>ACCENTS · VOCABULARY · CONJUGATION</p>
+    </div>
+    <div class="masthead-right">
+      <div class="stamp">révision</div>
+      <button class="theme-toggle" id="customize-toggle" type="button" aria-label="Customize colors" aria-pressed="false">🎨</button>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </div>
+
+  <div class="customize-panel" id="customize-panel" style="display:none;">
+    <div class="customize-panel-title">Customize colors</div>
+    <div class="customize-fields">
+      <div class="color-field">
+        <label for="cc-paper">Background</label>
+        <input type="color" id="cc-paper" value="#EDE8DC">
+      </div>
+      <div class="color-field">
+        <label for="cc-ink">Text</label>
+        <input type="color" id="cc-ink" value="#221F1B">
+      </div>
+      <div class="color-field">
+        <label for="cc-indigo">Accent</label>
+        <input type="color" id="cc-indigo" value="#2C4059">
+      </div>
+      <div class="color-field">
+        <label for="cc-vermilion">Highlight</label>
+        <input type="color" id="cc-vermilion" value="#B23A2C">
+      </div>
+    </div>
+    <div class="customize-presets">
+      <span>Presets:</span>
+      <button type="button" class="preset-swatch" id="preset-vintage" title="Vintage (default)" style="background:conic-gradient(#EDE8DC 0deg 120deg, #2C4059 120deg 240deg, #B23A2C 240deg 360deg);"></button>
+      <button type="button" class="preset-swatch" id="preset-ocean" title="Ocean" style="background:conic-gradient(#EAF3F7 0deg 120deg, #1D6F8C 120deg 240deg, #E07A3F 240deg 360deg);"></button>
+      <button type="button" class="preset-swatch" id="preset-rose" title="Rose" style="background:conic-gradient(#FBEFEF 0deg 120deg, #A24E6B 120deg 240deg, #C4453F 240deg 360deg);"></button>
+      <button type="button" class="preset-swatch" id="preset-forest" title="Forest" style="background:conic-gradient(#EFF3E8 0deg 120deg, #3B6B3E 120deg 240deg, #B2622C 240deg 360deg);"></button>
+      <button type="button" class="preset-swatch" id="preset-slate" title="Slate (dark)" style="background:conic-gradient(#1E2430 0deg 120deg, #6C93E0 120deg 240deg, #E0757D 240deg 360deg);"></button>
+    </div>
+    <div class="customize-panel-actions">
+      <button type="button" class="text-btn" id="cc-reset">Reset to default</button>
+      <button type="button" class="text-btn" id="cc-done">Done</button>
+    </div>
+  </div>
+
+  <div class="category-toggle" id="category-toggle">
+    <button type="button" class="cat-btn active" data-cat="accents" aria-pressed="true">Accents</button>
+    <button type="button" class="cat-btn" data-cat="vocab" aria-pressed="false">Vocabulary</button>
+    <button type="button" class="cat-btn" data-cat="conj" aria-pressed="false">Conjugation</button>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-tab="study" role="tab" aria-selected="true">Study cards</button>
+    <button class="tab" data-tab="quiz" role="tab" aria-selected="false">Quiz</button>
+  </div>
+
+  <!-- STUDY PANEL -->
+  <div class="panel active" id="panel-study">
+    <div class="progress-block">
+      <div class="progress-label"><span id="progress-count">0/0</span> known</div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+    <div class="study-toggle-row">
+      <button class="chip" id="hide-known-toggle" type="button" aria-pressed="false">Hide known (<span id="known-count">0</span>)</button>
+      <button class="chip" id="shuffle-toggle" type="button" aria-pressed="false">🔀 Shuffle</button>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div id="grid-container"></div>
+  </div>
+
+  <!-- QUIZ PANEL -->
+  <div class="panel" id="panel-quiz">
+    <div class="quiz-box">
+
+      <div id="quiz-setup">
+        <div class="setup-block" id="history-block" style="display:none;">
+          <div class="history-header">
+            <div class="section-label">Your progress</div>
+            <div class="history-actions">
+              <button type="button" class="text-btn" id="toggle-history-btn">Show details</button>
+              <button type="button" class="text-btn" id="clear-history-btn">Clear</button>
+            </div>
+          </div>
+          <div class="best-score-line" id="best-score-line"></div>
+          <div class="history-list" id="history-list" style="display:none;"></div>
+        </div>
+        <div class="setup-block">
+          <div class="section-label">Answer format</div>
+          <div class="filters" id="quiz-mode-toggle">
+            <button type="button" class="chip active" data-mode="choice" aria-pressed="true">Multiple choice</button>
+            <button type="button" class="chip" data-mode="type" aria-pressed="false">Type the answer</button>
+          </div>
+        </div>
+        <div class="setup-block">
+          <div class="section-label">Direction</div>
+          <div class="filters" id="quiz-direction-toggle">
+            <button type="button" class="chip active" data-dir="fwd" aria-pressed="true">French → English</button>
+            <button type="button" class="chip" data-dir="rev" aria-pressed="false">English → French</button>
+          </div>
+        </div>
+        <div class="setup-block">
+          <div class="section-label">Which categories should the quiz cover?</div>
+          <div class="filters" id="quiz-row-filters"></div>
+        </div>
+        <div class="setup-block">
+          <div class="section-label">How many questions?</div>
+          <div class="setup-count">
+            <input type="number" id="q-num-questions" min="1" max="150" value="15" aria-label="Number of quiz questions">
+            <span class="setup-hint" id="q-max-hint"></span>
+          </div>
+        </div>
+        <div class="setup-block">
+          <div class="section-label">Timed mode</div>
+          <div class="setup-count">
+            <label class="timer-toggle">
+              <input type="checkbox" id="q-timed-toggle">
+              <span>Enable timer</span>
+            </label>
+            <input type="number" id="q-timer-seconds" min="3" max="60" value="8" disabled aria-label="Seconds per question">
+            <span class="setup-hint">seconds per question</span>
+          </div>
+        </div>
+        <div class="setup-block">
+          <div class="section-label">Auto-advance</div>
+          <div class="setup-count">
+            <label class="timer-toggle">
+              <input type="checkbox" id="q-autoadvance-toggle" checked>
+              <span>Skip "Next" automatically after a correct answer</span>
+            </label>
+          </div>
+        </div>
+        <button class="start-btn" id="q-start">Start quiz →</button>
+      </div>
+
+      <div id="quiz-play" style="display:none;">
+        <div class="quiz-stats">
+          <div><b id="q-score">0</b>score</div>
+          <div><b id="q-streak">0</b>streak</div>
+          <div><b id="q-count">0/0</b>question</div>
+        </div>
+        <div class="timer-bar-wrap" id="timer-wrap" style="display:none;"><div class="timer-bar" id="timer-bar"></div></div>
+        <div class="quiz-char" id="q-char">é</div>
+        <div class="quiz-options" id="q-options"></div>
+        <div class="quiz-type-answer" id="quiz-type-answer" style="display:none;">
+          <input type="text" id="q-type-input" class="type-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="type the answer…" aria-label="Type your answer">
+          <button type="button" class="type-submit-btn" id="q-type-submit">Check</button>
+        </div>
+        <div class="kbd-hint" id="kbd-hint">Press 1–4 to answer, Enter for next</div>
+        <div class="quiz-feedback" id="q-feedback" aria-live="polite"></div>
+        <button class="next-btn" id="q-next">Next →</button>
+        <br>
+        <button class="restart-btn" id="q-restart">change settings / restart</button>
+      </div>
+
+      <div id="quiz-results" style="display:none;">
+        <div class="results-pct" id="results-pct">0%</div>
+        <div class="results-summary" id="results-summary">0 / 0 correct</div>
+        <div class="results-streak" id="results-streak"></div>
+
+        <div class="row-breakdown" id="row-breakdown"></div>
+
+        <div id="missed-section">
+          <div class="section-label">Missed items</div>
+          <div class="missed-list" id="missed-list"></div>
+        </div>
+
+        <div class="results-actions">
+          <button class="start-btn" id="practice-missed-btn">Practice missed →</button>
+          <button class="start-btn secondary" id="results-new-quiz">New quiz</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>Click any card to flip it. The tips are memory hooks, not official grammar rules.</footer>
+</div>
+
+<script>
+// ---- THEME ----
+const THEME_KEY = "french-trainer-theme-v1";
+function applyTheme(theme){
+  const toggle = document.getElementById("theme-toggle");
+  if(theme === "dark"){
+    document.documentElement.setAttribute("data-theme","dark");
+    toggle.textContent = "☀";
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+    toggle.textContent = "🌙";
+  }
+}
+function loadTheme(){
+  let theme = "light";
+  try{
+    const saved = localStorage.getItem(THEME_KEY);
+    if(saved){
+      theme = saved;
+    } else if(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches){
+      theme = "dark";
+    }
+  }catch(e){ /* ignore */ }
+  applyTheme(theme);
+}
+document.getElementById("theme-toggle").onclick = ()=>{
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  const next = isDark ? "light" : "dark";
+  applyTheme(next);
+  try{ localStorage.setItem(THEME_KEY, next); }catch(e){ /* ignore */ }
+};
+loadTheme();
+
+// ---- CUSTOM COLORS ----
+const CUSTOM_COLORS_KEY = "french-trainer-custom-colors-v1";
+let customColors = {}; // {paper, ink, indigo, vermilion} — any subset may be present
+
+function hexToRgb(hex){
+  hex = hex.replace('#','');
+  if(hex.length===3) hex = hex.split('').map(c=>c+c).join('');
+  const num = parseInt(hex,16);
+  return {r:(num>>16)&255, g:(num>>8)&255, b:num&255};
+}
+function rgbToHex(r,g,b){
+  return '#' + [r,g,b].map(x=>Math.max(0,Math.min(255,Math.round(x))).toString(16).padStart(2,'0')).join('');
+}
+function rgbToHsl(r,g,b){
+  r/=255; g/=255; b/=255;
+  const max=Math.max(r,g,b), min=Math.min(r,g,b);
+  let h,s,l=(max+min)/2;
+  if(max===min){ h=s=0; }
+  else{
+    const d=max-min;
+    s = l>0.5 ? d/(2-max-min) : d/(max+min);
+    switch(max){
+      case r: h=(g-b)/d + (g<b?6:0); break;
+      case g: h=(b-r)/d + 2; break;
+      default: h=(r-g)/d + 4;
+    }
+    h/=6;
+  }
+  return {h:h*360, s:s*100, l:l*100};
+}
+function hslToRgb(h,s,l){
+  h/=360; s/=100; l/=100;
+  let r,g,b;
+  if(s===0){ r=g=b=l; }
+  else{
+    const hue2rgb=(p,q,t)=>{
+      if(t<0)t+=1; if(t>1)t-=1;
+      if(t<1/6) return p+(q-p)*6*t;
+      if(t<1/2) return q;
+      if(t<2/3) return p+(q-p)*(2/3-t)*6;
+      return p;
+    };
+    const q = l<0.5 ? l*(1+s) : l+s-l*s;
+    const p = 2*l-q;
+    r=hue2rgb(p,q,h+1/3); g=hue2rgb(p,q,h); b=hue2rgb(p,q,h-1/3);
+  }
+  return {r:r*255,g:g*255,b:b*255};
+}
+function lightenHex(hex, amountPct){
+  const {r,g,b} = hexToRgb(hex);
+  const hsl = rgbToHsl(r,g,b);
+  hsl.l = Math.max(0, Math.min(100, hsl.l+amountPct));
+  const rgb = hslToRgb(hsl.h,hsl.s,hsl.l);
+  return rgbToHex(rgb.r,rgb.g,rgb.b);
+}
+function mixHex(hexA, hexB, weight){
+  const a=hexToRgb(hexA), b=hexToRgb(hexB);
+  return rgbToHex(a.r+(b.r-a.r)*weight, a.g+(b.g-a.g)*weight, a.b+(b.b-a.b)*weight);
+}
+function hexToRgbaString(hex, alpha){
+  const {r,g,b} = hexToRgb(hex);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function applyCustomColors(){
+  const root = document.documentElement;
+  if(customColors.paper){
+    root.style.setProperty('--paper', customColors.paper);
+    root.style.setProperty('--paper-raised', lightenHex(customColors.paper, 4));
+  } else {
+    root.style.removeProperty('--paper');
+    root.style.removeProperty('--paper-raised');
+  }
+  if(customColors.ink){
+    const paperVal = customColors.paper || getComputedStyle(root).getPropertyValue('--paper').trim() || '#EDE8DC';
+    root.style.setProperty('--ink', customColors.ink);
+    root.style.setProperty('--ink-soft', mixHex(customColors.ink, paperVal, 0.45));
+    root.style.setProperty('--line', hexToRgbaString(customColors.ink, 0.14));
+    root.style.setProperty('--line-strong', hexToRgbaString(customColors.ink, 0.28));
+  } else {
+    root.style.removeProperty('--ink');
+    root.style.removeProperty('--ink-soft');
+    root.style.removeProperty('--line');
+    root.style.removeProperty('--line-strong');
+  }
+  if(customColors.indigo){
+    root.style.setProperty('--indigo', customColors.indigo);
+    root.style.setProperty('--indigo-soft', lightenHex(customColors.indigo, 15));
+  } else {
+    root.style.removeProperty('--indigo');
+    root.style.removeProperty('--indigo-soft');
+  }
+  if(customColors.vermilion){
+    root.style.setProperty('--vermilion', customColors.vermilion);
+  } else {
+    root.style.removeProperty('--vermilion');
+  }
+}
+
+function loadCustomColors(){
+  try{
+    const raw = localStorage.getItem(CUSTOM_COLORS_KEY);
+    if(raw) customColors = JSON.parse(raw) || {};
+  }catch(e){ customColors = {}; }
+  applyCustomColors();
+  syncColorInputs();
+}
+function saveCustomColors(){
+  try{ localStorage.setItem(CUSTOM_COLORS_KEY, JSON.stringify(customColors)); }catch(e){ /* ignore */ }
+}
+function syncColorInputs(){
+  const root = document.documentElement;
+  const get = (key, cssVar)=> customColors[key] || getComputedStyle(root).getPropertyValue(cssVar).trim();
+  const paperVal = get('paper', '--paper');
+  document.getElementById('cc-paper').value = /^#/.test(paperVal) ? paperVal : '#EDE8DC';
+  const inkVal = get('ink', '--ink');
+  document.getElementById('cc-ink').value = /^#/.test(inkVal) ? inkVal : '#221F1B';
+  const indigoVal = get('indigo', '--indigo');
+  document.getElementById('cc-indigo').value = /^#/.test(indigoVal) ? indigoVal : '#2C4059';
+  const vermilionVal = get('vermilion', '--vermilion');
+  document.getElementById('cc-vermilion').value = /^#/.test(vermilionVal) ? vermilionVal : '#B23A2C';
+}
+
+document.getElementById('customize-toggle').onclick = function(){
+  const panel = document.getElementById('customize-panel');
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  this.setAttribute('aria-pressed', String(!isOpen));
+  if(!isOpen) syncColorInputs();
+};
+document.getElementById('cc-done').onclick = ()=>{
+  document.getElementById('customize-panel').style.display = 'none';
+  document.getElementById('customize-toggle').setAttribute('aria-pressed', 'false');
+};
+
+['paper','ink','indigo','vermilion'].forEach(key=>{
+  document.getElementById('cc-'+key).addEventListener('input', function(){
+    customColors[key] = this.value;
+    applyCustomColors();
+    saveCustomColors();
+  });
+});
+
+document.getElementById('cc-reset').onclick = ()=>{
+  customColors = {};
+  applyCustomColors();
+  saveCustomColors();
+  syncColorInputs();
+};
+
+const COLOR_PRESETS = {
+  vintage: {paper:'#EDE8DC', ink:'#221F1B', indigo:'#2C4059', vermilion:'#B23A2C'},
+  ocean:   {paper:'#EAF3F7', ink:'#1B2A32', indigo:'#1D6F8C', vermilion:'#E07A3F'},
+  rose:    {paper:'#FBEFEF', ink:'#33201F', indigo:'#A24E6B', vermilion:'#C4453F'},
+  forest:  {paper:'#EFF3E8', ink:'#1F2A17', indigo:'#3B6B3E', vermilion:'#B2622C'},
+  slate:   {paper:'#1E2430', ink:'#E7ECF5', indigo:'#6C93E0', vermilion:'#E0757D'}
+};
+Object.keys(COLOR_PRESETS).forEach(name=>{
+  const btn = document.getElementById('preset-'+name);
+  if(!btn) return;
+  btn.onclick = ()=>{
+    customColors = Object.assign({}, COLOR_PRESETS[name]);
+    applyCustomColors();
+    saveCustomColors();
+    syncColorInputs();
+  };
+});
+
+loadCustomColors();
+
+// ---- DATA ----
+// c = front prompt, r = answer, row = subgroup key, m = mnemonic/note
+
+const ACCENTS_DATA = [
+ {c:"é", r:"acute", row:"acute", m:"Sounds like the 'ay' in 'day' — as in café, été, télé."},
+ {c:"è", r:"grave", row:"grave", m:"A more open sound, like the 'e' in 'bed' — as in mère, très, après."},
+ {c:"à", r:"grave", row:"grave", m:"Doesn't change the 'a' sound — mostly distinguishes à (to/at) from a (has). As in voilà, déjà."},
+ {c:"ù", r:"grave", row:"grave", m:"Only appears in the word où (where), to distinguish it from ou (or)."},
+ {c:"â", r:"circumflex", row:"circumflex", m:"A longer, deeper 'ah' sound — as in âme, château. Often marks a dropped historical 's' (château ← castel)."},
+ {c:"ê", r:"circumflex", row:"circumflex", m:"A more open 'e' sound — as in être, forêt. Often marks a dropped historical 's' (forêt ← forest)."},
+ {c:"î", r:"circumflex", row:"circumflex", m:"Doesn't change the 'i' sound much — as in île (island), maîtres."},
+ {c:"ô", r:"circumflex", row:"circumflex", m:"A closed, rounded 'o' — as in hôtel, côte."},
+ {c:"û", r:"circumflex", row:"circumflex", m:"Doesn't change the 'u' sound much — as in dû (owed), distinguishing it from du."},
+ {c:"ë", r:"diaeresis", row:"diaeresis", m:"Signals the vowel is pronounced separately from the one before it — as in Noël (no-ELL, not 'nwel')."},
+ {c:"ï", r:"diaeresis", row:"diaeresis", m:"Keeps the i separate from the vowel before it — as in naïve, maïs (corn)."},
+ {c:"ü", r:"diaeresis", row:"diaeresis", m:"Rare in French, mostly in borrowed names — as in capharnaüm."},
+ {c:"ç", r:"cedilla", row:"cedilla", m:"Softens a 'c' before a, o, u into an 's' sound — as in garçon, français, ça."},
+ {c:"œ", r:"ligature", row:"ligature", m:"The 'oe' ligature, pronounced like 'eu' — as in cœur (heart), sœur (sister), œuf (egg)."},
+ {c:"æ", r:"ligature", row:"ligature", m:"Rare, mostly in Latin loanwords — as in curriculum vitæ, ex æquo."}
+];
+
+const VOCAB_DATA = [
+ {c:"bonjour", r:"hello / good day", row:"greetings", m:"The all-purpose daytime greeting — works for 'hi' and 'good morning/afternoon'."},
+ {c:"bonsoir", r:"good evening", row:"greetings", m:"Swap to this once evening starts — bon (good) + soir (evening)."},
+ {c:"au revoir", r:"goodbye", row:"greetings", m:"Literally 'to the seeing again' — au (to the) + revoir (see again)."},
+ {c:"merci", r:"thank you", row:"greetings", m:"Related to 'mercy' — think of it as being shown a small kindness."},
+ {c:"s'il vous plaît", r:"please", row:"greetings", m:"Literally 'if it pleases you' — the formal/plural 'please'."},
+ {c:"de rien", r:"you're welcome", row:"greetings", m:"Literally 'of nothing' — like saying 'it's nothing'."},
+ {c:"enchanté", r:"nice to meet you", row:"greetings", m:"Literally 'enchanted' — a flattering way to say it's a pleasure to meet someone."},
+ {c:"à bientôt", r:"see you soon", row:"greetings", m:"à (to) + bientôt (soon) — a casual sign-off."},
+ {c:"un", r:"one", row:"numbers", m:"Rhymes loosely with 'uh' — the article 'a/an' (un/une) comes from this number."},
+ {c:"deux", r:"two", row:"numbers", m:"Sounds like 'duh' — think 'duo' for a pair."},
+ {c:"trois", r:"three", row:"numbers", m:"Looks like 'trio' — three of a kind."},
+ {c:"quatre", r:"four", row:"numbers", m:"Sounds like 'katr' — related to 'quartet', a group of four."},
+ {c:"cinq", r:"five", row:"numbers", m:"Sounds like 'sank' — five fingers sank into the sand."},
+ {c:"six", r:"six", row:"numbers", m:"Spelled the same as English six, but pronounced 'seess'."},
+ {c:"sept", r:"seven", row:"numbers", m:"Looks like 'September' (once the 7th month in the old Roman calendar)."},
+ {c:"huit", r:"eight", row:"numbers", m:"Silent h — sounds like 'weet'. Think of a figure-8 shape."},
+ {c:"neuf", r:"nine", row:"numbers", m:"Also means 'new' in French — nine, like a fresh new digit before ten."},
+ {c:"dix", r:"ten", row:"numbers", m:"Sounds like 'deess' — ten fingers, ten toes, 'dix' digits."},
+ {c:"la mère", r:"mother", row:"family", m:"Close to English 'mother' in feel — 'la' marks it feminine."},
+ {c:"le père", r:"father", row:"family", m:"Close to 'paternal' — 'le' marks it masculine."},
+ {c:"la sœur", r:"sister", row:"family", m:"Related to English 'sorority' (sisterhood)."},
+ {c:"le frère", r:"brother", row:"family", m:"Related to English 'fraternity' (brotherhood)."},
+ {c:"la fille", r:"daughter / girl", row:"family", m:"Context decides — a young 'fille' is a girl, someone's 'fille' is their daughter."},
+ {c:"le fils", r:"son", row:"family", m:"The 's' is pronounced — rhymes roughly with 'feess'."},
+ {c:"les grands-parents", r:"grandparents", row:"family", m:"Literally 'the big/grand parents' — same logic as English 'grand-'."},
+ {c:"l'enfant", r:"child", row:"family", m:"Related to English 'infant' — used for any child, boy or girl."},
+ {c:"le pain", r:"bread", row:"food", m:"Related to English 'pantry' (a place to keep bread) and 'companion' (with-bread)."},
+ {c:"le fromage", r:"cheese", row:"food", m:"From 'forme' (mold/shape) — cheese shaped in a mold."},
+ {c:"l'eau", r:"water", row:"food", m:"Related to English 'aquatic' — pronounced simply 'oh'."},
+ {c:"le vin", r:"wine", row:"food", m:"Looks almost identical to English 'vine' — where wine comes from."},
+ {c:"la pomme", r:"apple", row:"food", m:"Think 'pomme de terre' (potato) — literally 'apple of the earth'."},
+ {c:"le poisson", r:"fish", row:"food", m:"Related to English 'poison' in spelling only — no relation in meaning! Think of a fish tank instead."},
+ {c:"la viande", r:"meat", row:"food", m:"Related to old French 'vivanda' — 'things to live on'."},
+ {c:"le café", r:"coffee", row:"food", m:"Same word as English 'café' — also means the coffee shop itself."},
+ {c:"rouge", r:"red", row:"colors", m:"Related to English 'rouge' (red makeup) — same word, same color."},
+ {c:"bleu", r:"blue", row:"colors", m:"Looks and sounds close to 'blue' already."},
+ {c:"vert", r:"green", row:"colors", m:"Related to English 'verdant' (lush and green)."},
+ {c:"jaune", r:"yellow", row:"colors", m:"Think of a jaunty yellow sun — no real link, but the rhyme helps it stick."},
+ {c:"noir", r:"black", row:"colors", m:"Related to English 'noir' — as in 'film noir', a dark, black-and-white style."},
+ {c:"blanc", r:"white", row:"colors", m:"Related to English 'blank' — a blank page is white."},
+ {c:"orange", r:"orange", row:"colors", m:"Identical to English — both the color and the fruit."},
+ {c:"violet", r:"purple", row:"colors", m:"Identical to English 'violet' — a shade of purple."},
+ {c:"la maison", r:"house", row:"everyday", m:"Related to English 'mansion' — a grander cousin of the same root."},
+ {c:"la voiture", r:"car", row:"everyday", m:"From 'voiturer' (to convey/transport) — a thing that carries you."},
+ {c:"le travail", r:"work", row:"everyday", m:"Related to English 'travail' (hard, effortful labor)."},
+ {c:"l'école", r:"school", row:"everyday", m:"Nearly identical to English 'school' with an accent."},
+ {c:"le temps", r:"weather / time", row:"everyday", m:"Related to English 'temperature' and 'tempo' — covers both weather and time."},
+ {c:"l'ami", r:"friend", row:"everyday", m:"Related to English 'amicable' — friendly."},
+ {c:"le livre", r:"book", row:"everyday", m:"Related to English 'library' — a place full of livres."},
+ {c:"la ville", r:"city", row:"everyday", m:"Related to English 'village' — a smaller cousin of the same root."},
+ {c:"la tête", r:"head", row:"body", m:"Related to English 'tester' (an old word for a helmet covering the head) — same root."},
+ {c:"l'œil (m)", r:"eye", row:"body", m:"Related to English 'oculist' (eye doctor) — same Latin root oculus."},
+ {c:"les yeux (m, pl)", r:"eyes", row:"body", m:"The irregular plural of œil — sounds like 'yuh'. Memorize this odd pair together."},
+ {c:"l'oreille (f)", r:"ear", row:"body", m:"Related to English 'auricle' (the outer ear) — same Latin root auris."},
+ {c:"les oreilles (f, pl)", r:"ears", row:"body", m:"Just add -s to oreille, like most regular French plurals."},
+ {c:"le visage", r:"face", row:"body", m:"Nearly identical to English 'visage' — literally the same word."},
+ {c:"le nez", r:"nose", row:"body", m:"Rhymes with English 'day' — picture holding your nose and saying 'nay!'"},
+ {c:"la bouche", r:"mouth", row:"body", m:"Related to English 'debouch' (to emerge, as a river does from its mouth)."},
+ {c:"la dent", r:"tooth", row:"body", m:"Related to English 'dental', 'dentist' — same Latin root dens."},
+ {c:"la gorge", r:"throat", row:"body", m:"Related to English 'gorge' (a narrow throat-like passage in a landscape)."},
+ {c:"le cou", r:"neck", row:"body", m:"Related to English 'collar' — worn around the cou."},
+ {c:"l'épaule (f)", r:"shoulder", row:"body", m:"Sounds like 'ay-pole' — picture a pole balanced across your shoulders."},
+ {c:"les épaules (f, pl)", r:"shoulders", row:"body", m:"Just add -s to épaule."},
+ {c:"le bras", r:"arm", row:"body", m:"Related to English 'embrace' — you embrace someone with your bras."},
+ {c:"la main", r:"hand", row:"body", m:"Related to English 'manual', 'maintain' — same Latin root manus."},
+ {c:"le doigt", r:"finger", row:"body", m:"Related to English 'digit' — a finger is a digit."},
+ {c:"les doigts", r:"fingers", row:"body", m:"Just add -s to doigt (the final t stays silent)."},
+ {c:"le ventre", r:"stomach / belly", row:"body", m:"Related to English 'ventral' (relating to the belly side of the body)."},
+ {c:"la poitrine", r:"chest", row:"body", m:"No direct cognate — picture a 'poitrine' as a treasure chest guarding your heart."},
+ {c:"le dos", r:"back", row:"body", m:"Related to English 'dossier' (papers 'backed' together) and 'dorsal' (relating to the back)."},
+ {c:"la jambe", r:"leg", row:"body", m:"Related to English 'jamb' (the side post of a doorway) — think of legs as support posts."},
+ {c:"le genou", r:"knee", row:"body", m:"No direct cognate — picture a tiny genie popping out of your knee."},
+ {c:"la cheville", r:"ankle", row:"body", m:"No direct cognate — cheville also means 'peg' in carpentry; picture a small peg at the ankle."},
+ {c:"le pied", r:"foot", row:"body", m:"Related to English 'pedestrian', 'pedal' — same Latin root pes/pedis."},
+ {c:"l'orteil (m)", r:"toe", row:"body", m:"No direct cognate — just memorize the sound /or-tay/."},
+ {c:"les orteils (m, pl)", r:"toes", row:"body", m:"Just add -s to orteil."}
+];
+
+const CONJ_DATA = [
+ {c:"être — je (présent)", r:"suis", row:"present", m:"Highly irregular — just memorize 'je suis, tu es, il est, nous sommes, vous êtes, ils sont' as a chant."},
+ {c:"être — tu (présent)", r:"es", row:"present", m:"Highly irregular — just memorize 'je suis, tu es, il est, nous sommes, vous êtes, ils sont' as a chant."},
+ {c:"être — il/elle (présent)", r:"est", row:"present", m:"Highly irregular — just memorize 'je suis, tu es, il est, nous sommes, vous êtes, ils sont' as a chant."},
+ {c:"être — nous (présent)", r:"sommes", row:"present", m:"Highly irregular — just memorize 'je suis, tu es, il est, nous sommes, vous êtes, ils sont' as a chant."},
+ {c:"être — vous (présent)", r:"êtes", row:"present", m:"Highly irregular — just memorize 'je suis, tu es, il est, nous sommes, vous êtes, ils sont' as a chant."},
+ {c:"être — ils/elles (présent)", r:"sont", row:"present", m:"Highly irregular — just memorize 'je suis, tu es, il est, nous sommes, vous êtes, ils sont' as a chant."},
+ {c:"avoir — je (présent)", r:"ai", row:"present", m:"One of the most common words in French — 'j'ai' elides je+ai into one syllable."},
+ {c:"avoir — tu (présent)", r:"as", row:"present", m:"One of the most common words in French — 'j'ai' elides je+ai into one syllable."},
+ {c:"avoir — il/elle (présent)", r:"a", row:"present", m:"One of the most common words in French — 'j'ai' elides je+ai into one syllable."},
+ {c:"avoir — nous (présent)", r:"avons", row:"present", m:"One of the most common words in French — 'j'ai' elides je+ai into one syllable."},
+ {c:"avoir — vous (présent)", r:"avez", row:"present", m:"One of the most common words in French — 'j'ai' elides je+ai into one syllable."},
+ {c:"avoir — ils/elles (présent)", r:"ont", row:"present", m:"One of the most common words in French — 'j'ai' elides je+ai into one syllable."},
+ {c:"aller — je (présent)", r:"vais", row:"present", m:"Totally different root from the infinitive, like English 'go/went' — vais, vas, va, vont all share this irregular stem."},
+ {c:"aller — tu (présent)", r:"vas", row:"present", m:"Totally different root from the infinitive, like English 'go/went' — vais, vas, va, vont all share this irregular stem."},
+ {c:"aller — il/elle (présent)", r:"va", row:"present", m:"Totally different root from the infinitive, like English 'go/went' — vais, vas, va, vont all share this irregular stem."},
+ {c:"aller — nous (présent)", r:"allons", row:"present", m:"Totally different root from the infinitive, like English 'go/went' — vais, vas, va, vont all share this irregular stem."},
+ {c:"aller — vous (présent)", r:"allez", row:"present", m:"Totally different root from the infinitive, like English 'go/went' — vais, vas, va, vont all share this irregular stem."},
+ {c:"aller — ils/elles (présent)", r:"vont", row:"present", m:"Totally different root from the infinitive, like English 'go/went' — vais, vas, va, vont all share this irregular stem."},
+ {c:"faire — je (présent)", r:"fais", row:"present", m:"Irregular — also used for weather, as in 'il fait beau' (it's nice out)."},
+ {c:"faire — tu (présent)", r:"fais", row:"present", m:"Irregular — also used for weather, as in 'il fait beau' (it's nice out)."},
+ {c:"faire — il/elle (présent)", r:"fait", row:"present", m:"Irregular — also used for weather, as in 'il fait beau' (it's nice out)."},
+ {c:"faire — nous (présent)", r:"faisons", row:"present", m:"Irregular — also used for weather, as in 'il fait beau' (it's nice out)."},
+ {c:"faire — vous (présent)", r:"faites", row:"present", m:"Irregular — also used for weather, as in 'il fait beau' (it's nice out)."},
+ {c:"faire — ils/elles (présent)", r:"font", row:"present", m:"Irregular — also used for weather, as in 'il fait beau' (it's nice out)."},
+ {c:"parler — je (présent)", r:"parle", row:"present", m:"Regular -er verb: drop -er, add -e/-es/-e/-ons/-ez/-ent. Related to English 'parlance', 'parley'."},
+ {c:"parler — tu (présent)", r:"parles", row:"present", m:"Regular -er verb: drop -er, add -e/-es/-e/-ons/-ez/-ent. Related to English 'parlance', 'parley'."},
+ {c:"parler — il/elle (présent)", r:"parle", row:"present", m:"Regular -er verb: drop -er, add -e/-es/-e/-ons/-ez/-ent. Related to English 'parlance', 'parley'."},
+ {c:"parler — nous (présent)", r:"parlons", row:"present", m:"Regular -er verb: drop -er, add -e/-es/-e/-ons/-ez/-ent. Related to English 'parlance', 'parley'."},
+ {c:"parler — vous (présent)", r:"parlez", row:"present", m:"Regular -er verb: drop -er, add -e/-es/-e/-ons/-ez/-ent. Related to English 'parlance', 'parley'."},
+ {c:"parler — ils/elles (présent)", r:"parlent", row:"present", m:"Regular -er verb: drop -er, add -e/-es/-e/-ons/-ez/-ent. Related to English 'parlance', 'parley'."},
+ {c:"finir — je (présent)", r:"finis", row:"present", m:"Regular -ir verb: drop -ir, add -is/-is/-it/-issons/-issez/-issent. Related to English 'finish'."},
+ {c:"finir — tu (présent)", r:"finis", row:"present", m:"Regular -ir verb: drop -ir, add -is/-is/-it/-issons/-issez/-issent. Related to English 'finish'."},
+ {c:"finir — il/elle (présent)", r:"finit", row:"present", m:"Regular -ir verb: drop -ir, add -is/-is/-it/-issons/-issez/-issent. Related to English 'finish'."},
+ {c:"finir — nous (présent)", r:"finissons", row:"present", m:"Regular -ir verb: drop -ir, add -is/-is/-it/-issons/-issez/-issent. Related to English 'finish'."},
+ {c:"finir — vous (présent)", r:"finissez", row:"present", m:"Regular -ir verb: drop -ir, add -is/-is/-it/-issons/-issez/-issent. Related to English 'finish'."},
+ {c:"finir — ils/elles (présent)", r:"finissent", row:"present", m:"Regular -ir verb: drop -ir, add -is/-is/-it/-issons/-issez/-issent. Related to English 'finish'."},
+ {c:"vendre — je (présent)", r:"vends", row:"present", m:"Regular -re verb: drop -re, add -s/-s/-(nothing)/-ons/-ez/-ent. Related to English 'vendor'."},
+ {c:"vendre — tu (présent)", r:"vends", row:"present", m:"Regular -re verb: drop -re, add -s/-s/-(nothing)/-ons/-ez/-ent. Related to English 'vendor'."},
+ {c:"vendre — il/elle (présent)", r:"vend", row:"present", m:"Regular -re verb: drop -re, add -s/-s/-(nothing)/-ons/-ez/-ent. Related to English 'vendor'."},
+ {c:"vendre — nous (présent)", r:"vendons", row:"present", m:"Regular -re verb: drop -re, add -s/-s/-(nothing)/-ons/-ez/-ent. Related to English 'vendor'."},
+ {c:"vendre — vous (présent)", r:"vendez", row:"present", m:"Regular -re verb: drop -re, add -s/-s/-(nothing)/-ons/-ez/-ent. Related to English 'vendor'."},
+ {c:"vendre — ils/elles (présent)", r:"vendent", row:"present", m:"Regular -re verb: drop -re, add -s/-s/-(nothing)/-ons/-ez/-ent. Related to English 'vendor'."},
+ {c:"pouvoir — je (présent)", r:"peux", row:"present", m:"Irregular modal verb meaning 'can / to be able to' — peux, peux, peut all sound the same."},
+ {c:"pouvoir — tu (présent)", r:"peux", row:"present", m:"Irregular modal verb meaning 'can / to be able to' — peux, peux, peut all sound the same."},
+ {c:"pouvoir — il/elle (présent)", r:"peut", row:"present", m:"Irregular modal verb meaning 'can / to be able to' — peux, peux, peut all sound the same."},
+ {c:"pouvoir — nous (présent)", r:"pouvons", row:"present", m:"Irregular modal verb meaning 'can / to be able to' — peux, peux, peut all sound the same."},
+ {c:"pouvoir — vous (présent)", r:"pouvez", row:"present", m:"Irregular modal verb meaning 'can / to be able to' — peux, peux, peut all sound the same."},
+ {c:"pouvoir — ils/elles (présent)", r:"peuvent", row:"present", m:"Irregular modal verb meaning 'can / to be able to' — peux, peux, peut all sound the same."},
+ {c:"être — je (passé composé)", r:"ai été", row:"passecompose", m:"Even être uses avoir as its own auxiliary here — 'j'ai été' means 'I was/have been', not 'I have été'."},
+ {c:"être — tu (passé composé)", r:"as été", row:"passecompose", m:"Even être uses avoir as its own auxiliary here — 'j'ai été' means 'I was/have been', not 'I have été'."},
+ {c:"être — il/elle (passé composé)", r:"a été", row:"passecompose", m:"Even être uses avoir as its own auxiliary here — 'j'ai été' means 'I was/have been', not 'I have été'."},
+ {c:"être — nous (passé composé)", r:"avons été", row:"passecompose", m:"Even être uses avoir as its own auxiliary here — 'j'ai été' means 'I was/have been', not 'I have été'."},
+ {c:"être — vous (passé composé)", r:"avez été", row:"passecompose", m:"Even être uses avoir as its own auxiliary here — 'j'ai été' means 'I was/have been', not 'I have été'."},
+ {c:"être — ils/elles (passé composé)", r:"ont été", row:"passecompose", m:"Even être uses avoir as its own auxiliary here — 'j'ai été' means 'I was/have been', not 'I have été'."},
+ {c:"avoir — je (passé composé)", r:"ai eu", row:"passecompose", m:"The past participle 'eu' is pronounced simply 'ew' — 'j'ai eu' means 'I had/have had'."},
+ {c:"avoir — tu (passé composé)", r:"as eu", row:"passecompose", m:"The past participle 'eu' is pronounced simply 'ew' — 'j'ai eu' means 'I had/have had'."},
+ {c:"avoir — il/elle (passé composé)", r:"a eu", row:"passecompose", m:"The past participle 'eu' is pronounced simply 'ew' — 'j'ai eu' means 'I had/have had'."},
+ {c:"avoir — nous (passé composé)", r:"avons eu", row:"passecompose", m:"The past participle 'eu' is pronounced simply 'ew' — 'j'ai eu' means 'I had/have had'."},
+ {c:"avoir — vous (passé composé)", r:"avez eu", row:"passecompose", m:"The past participle 'eu' is pronounced simply 'ew' — 'j'ai eu' means 'I had/have had'."},
+ {c:"avoir — ils/elles (passé composé)", r:"ont eu", row:"passecompose", m:"The past participle 'eu' is pronounced simply 'ew' — 'j'ai eu' means 'I had/have had'."},
+ {c:"aller — je (passé composé)", r:"suis allé(e)", row:"passecompose", m:"Aller is one of the verbs that takes être (not avoir) as its auxiliary — and the participle 'allé' agrees in gender/number with the subject (allée, allés, allées)."},
+ {c:"aller — tu (passé composé)", r:"es allé(e)", row:"passecompose", m:"Aller is one of the verbs that takes être (not avoir) as its auxiliary — and the participle 'allé' agrees in gender/number with the subject (allée, allés, allées)."},
+ {c:"aller — il/elle (passé composé)", r:"est allé(e)", row:"passecompose", m:"Aller is one of the verbs that takes être (not avoir) as its auxiliary — and the participle 'allé' agrees in gender/number with the subject (allée, allés, allées)."},
+ {c:"aller — nous (passé composé)", r:"sommes allé(e)s", row:"passecompose", m:"Aller is one of the verbs that takes être (not avoir) as its auxiliary — and the participle 'allé' agrees in gender/number with the subject (allée, allés, allées)."},
+ {c:"aller — vous (passé composé)", r:"êtes allé(e)(s)", row:"passecompose", m:"Aller is one of the verbs that takes être (not avoir) as its auxiliary — and the participle 'allé' agrees in gender/number with the subject (allée, allés, allées)."},
+ {c:"aller — ils/elles (passé composé)", r:"sont allé(e)s", row:"passecompose", m:"Aller is one of the verbs that takes être (not avoir) as its auxiliary — and the participle 'allé' agrees in gender/number with the subject (allée, allés, allées)."},
+ {c:"faire — je (passé composé)", r:"ai fait", row:"passecompose", m:"The participle 'fait' is also the everyday word for 'fact/done' — 'j'ai fait' means 'I did/have done'."},
+ {c:"faire — tu (passé composé)", r:"as fait", row:"passecompose", m:"The participle 'fait' is also the everyday word for 'fact/done' — 'j'ai fait' means 'I did/have done'."},
+ {c:"faire — il/elle (passé composé)", r:"a fait", row:"passecompose", m:"The participle 'fait' is also the everyday word for 'fact/done' — 'j'ai fait' means 'I did/have done'."},
+ {c:"faire — nous (passé composé)", r:"avons fait", row:"passecompose", m:"The participle 'fait' is also the everyday word for 'fact/done' — 'j'ai fait' means 'I did/have done'."},
+ {c:"faire — vous (passé composé)", r:"avez fait", row:"passecompose", m:"The participle 'fait' is also the everyday word for 'fact/done' — 'j'ai fait' means 'I did/have done'."},
+ {c:"faire — ils/elles (passé composé)", r:"ont fait", row:"passecompose", m:"The participle 'fait' is also the everyday word for 'fact/done' — 'j'ai fait' means 'I did/have done'."},
+ {c:"parler — je (passé composé)", r:"ai parlé", row:"passecompose", m:"Regular -er verbs form their participle with -é — 'j'ai parlé' means 'I spoke/have spoken'."},
+ {c:"parler — tu (passé composé)", r:"as parlé", row:"passecompose", m:"Regular -er verbs form their participle with -é — 'j'ai parlé' means 'I spoke/have spoken'."},
+ {c:"parler — il/elle (passé composé)", r:"a parlé", row:"passecompose", m:"Regular -er verbs form their participle with -é — 'j'ai parlé' means 'I spoke/have spoken'."},
+ {c:"parler — nous (passé composé)", r:"avons parlé", row:"passecompose", m:"Regular -er verbs form their participle with -é — 'j'ai parlé' means 'I spoke/have spoken'."},
+ {c:"parler — vous (passé composé)", r:"avez parlé", row:"passecompose", m:"Regular -er verbs form their participle with -é — 'j'ai parlé' means 'I spoke/have spoken'."},
+ {c:"parler — ils/elles (passé composé)", r:"ont parlé", row:"passecompose", m:"Regular -er verbs form their participle with -é — 'j'ai parlé' means 'I spoke/have spoken'."},
+ {c:"finir — je (passé composé)", r:"ai fini", row:"passecompose", m:"Regular -ir verbs form their participle with -i — 'j'ai fini' means 'I finished/have finished'."},
+ {c:"finir — tu (passé composé)", r:"as fini", row:"passecompose", m:"Regular -ir verbs form their participle with -i — 'j'ai fini' means 'I finished/have finished'."},
+ {c:"finir — il/elle (passé composé)", r:"a fini", row:"passecompose", m:"Regular -ir verbs form their participle with -i — 'j'ai fini' means 'I finished/have finished'."},
+ {c:"finir — nous (passé composé)", r:"avons fini", row:"passecompose", m:"Regular -ir verbs form their participle with -i — 'j'ai fini' means 'I finished/have finished'."},
+ {c:"finir — vous (passé composé)", r:"avez fini", row:"passecompose", m:"Regular -ir verbs form their participle with -i — 'j'ai fini' means 'I finished/have finished'."},
+ {c:"finir — ils/elles (passé composé)", r:"ont fini", row:"passecompose", m:"Regular -ir verbs form their participle with -i — 'j'ai fini' means 'I finished/have finished'."},
+ {c:"vendre — je (passé composé)", r:"ai vendu", row:"passecompose", m:"Regular -re verbs form their participle with -u — 'j'ai vendu' means 'I sold/have sold'."},
+ {c:"vendre — tu (passé composé)", r:"as vendu", row:"passecompose", m:"Regular -re verbs form their participle with -u — 'j'ai vendu' means 'I sold/have sold'."},
+ {c:"vendre — il/elle (passé composé)", r:"a vendu", row:"passecompose", m:"Regular -re verbs form their participle with -u — 'j'ai vendu' means 'I sold/have sold'."},
+ {c:"vendre — nous (passé composé)", r:"avons vendu", row:"passecompose", m:"Regular -re verbs form their participle with -u — 'j'ai vendu' means 'I sold/have sold'."},
+ {c:"vendre — vous (passé composé)", r:"avez vendu", row:"passecompose", m:"Regular -re verbs form their participle with -u — 'j'ai vendu' means 'I sold/have sold'."},
+ {c:"vendre — ils/elles (passé composé)", r:"ont vendu", row:"passecompose", m:"Regular -re verbs form their participle with -u — 'j'ai vendu' means 'I sold/have sold'."},
+ {c:"pouvoir — je (passé composé)", r:"ai pu", row:"passecompose", m:"The participle 'pu' is just one syllable — 'j'ai pu' means 'I could / have been able to'."},
+ {c:"pouvoir — tu (passé composé)", r:"as pu", row:"passecompose", m:"The participle 'pu' is just one syllable — 'j'ai pu' means 'I could / have been able to'."},
+ {c:"pouvoir — il/elle (passé composé)", r:"a pu", row:"passecompose", m:"The participle 'pu' is just one syllable — 'j'ai pu' means 'I could / have been able to'."},
+ {c:"pouvoir — nous (passé composé)", r:"avons pu", row:"passecompose", m:"The participle 'pu' is just one syllable — 'j'ai pu' means 'I could / have been able to'."},
+ {c:"pouvoir — vous (passé composé)", r:"avez pu", row:"passecompose", m:"The participle 'pu' is just one syllable — 'j'ai pu' means 'I could / have been able to'."},
+ {c:"pouvoir — ils/elles (passé composé)", r:"ont pu", row:"passecompose", m:"The participle 'pu' is just one syllable — 'j'ai pu' means 'I could / have been able to'."},
+ {c:"être — je (futur simple)", r:"serai", row:"futur", m:"Built on an irregular stem ser- + the usual future endings (-ai, -as, -a, -ons, -ez, -ont)."},
+ {c:"être — tu (futur simple)", r:"seras", row:"futur", m:"Built on an irregular stem ser- + the usual future endings (-ai, -as, -a, -ons, -ez, -ont)."},
+ {c:"être — il/elle (futur simple)", r:"sera", row:"futur", m:"Built on an irregular stem ser- + the usual future endings (-ai, -as, -a, -ons, -ez, -ont)."},
+ {c:"être — nous (futur simple)", r:"serons", row:"futur", m:"Built on an irregular stem ser- + the usual future endings (-ai, -as, -a, -ons, -ez, -ont)."},
+ {c:"être — vous (futur simple)", r:"serez", row:"futur", m:"Built on an irregular stem ser- + the usual future endings (-ai, -as, -a, -ons, -ez, -ont)."},
+ {c:"être — ils/elles (futur simple)", r:"seront", row:"futur", m:"Built on an irregular stem ser- + the usual future endings (-ai, -as, -a, -ons, -ez, -ont)."},
+ {c:"avoir — je (futur simple)", r:"aurai", row:"futur", m:"Irregular stem aur- + the usual future endings."},
+ {c:"avoir — tu (futur simple)", r:"auras", row:"futur", m:"Irregular stem aur- + the usual future endings."},
+ {c:"avoir — il/elle (futur simple)", r:"aura", row:"futur", m:"Irregular stem aur- + the usual future endings."},
+ {c:"avoir — nous (futur simple)", r:"aurons", row:"futur", m:"Irregular stem aur- + the usual future endings."},
+ {c:"avoir — vous (futur simple)", r:"aurez", row:"futur", m:"Irregular stem aur- + the usual future endings."},
+ {c:"avoir — ils/elles (futur simple)", r:"auront", row:"futur", m:"Irregular stem aur- + the usual future endings."},
+ {c:"aller — je (futur simple)", r:"irai", row:"futur", m:"Irregular stem ir- + the usual future endings — related to English 'itinerary'."},
+ {c:"aller — tu (futur simple)", r:"iras", row:"futur", m:"Irregular stem ir- + the usual future endings — related to English 'itinerary'."},
+ {c:"aller — il/elle (futur simple)", r:"ira", row:"futur", m:"Irregular stem ir- + the usual future endings — related to English 'itinerary'."},
+ {c:"aller — nous (futur simple)", r:"irons", row:"futur", m:"Irregular stem ir- + the usual future endings — related to English 'itinerary'."},
+ {c:"aller — vous (futur simple)", r:"irez", row:"futur", m:"Irregular stem ir- + the usual future endings — related to English 'itinerary'."},
+ {c:"aller — ils/elles (futur simple)", r:"iront", row:"futur", m:"Irregular stem ir- + the usual future endings — related to English 'itinerary'."},
+ {c:"faire — je (futur simple)", r:"ferai", row:"futur", m:"Irregular stem fer- (not far-!) + the usual future endings."},
+ {c:"faire — tu (futur simple)", r:"feras", row:"futur", m:"Irregular stem fer- (not far-!) + the usual future endings."},
+ {c:"faire — il/elle (futur simple)", r:"fera", row:"futur", m:"Irregular stem fer- (not far-!) + the usual future endings."},
+ {c:"faire — nous (futur simple)", r:"ferons", row:"futur", m:"Irregular stem fer- (not far-!) + the usual future endings."},
+ {c:"faire — vous (futur simple)", r:"ferez", row:"futur", m:"Irregular stem fer- (not far-!) + the usual future endings."},
+ {c:"faire — ils/elles (futur simple)", r:"feront", row:"futur", m:"Irregular stem fer- (not far-!) + the usual future endings."},
+ {c:"parler — je (futur simple)", r:"parlerai", row:"futur", m:"Regular -er verbs just add the future endings straight onto the infinitive: parler + ai/as/a/ons/ez/ont."},
+ {c:"parler — tu (futur simple)", r:"parleras", row:"futur", m:"Regular -er verbs just add the future endings straight onto the infinitive: parler + ai/as/a/ons/ez/ont."},
+ {c:"parler — il/elle (futur simple)", r:"parlera", row:"futur", m:"Regular -er verbs just add the future endings straight onto the infinitive: parler + ai/as/a/ons/ez/ont."},
+ {c:"parler — nous (futur simple)", r:"parlerons", row:"futur", m:"Regular -er verbs just add the future endings straight onto the infinitive: parler + ai/as/a/ons/ez/ont."},
+ {c:"parler — vous (futur simple)", r:"parlerez", row:"futur", m:"Regular -er verbs just add the future endings straight onto the infinitive: parler + ai/as/a/ons/ez/ont."},
+ {c:"parler — ils/elles (futur simple)", r:"parleront", row:"futur", m:"Regular -er verbs just add the future endings straight onto the infinitive: parler + ai/as/a/ons/ez/ont."},
+ {c:"finir — je (futur simple)", r:"finirai", row:"futur", m:"Regular -ir verbs add the future endings straight onto the infinitive: finir + ai/as/a/ons/ez/ont."},
+ {c:"finir — tu (futur simple)", r:"finiras", row:"futur", m:"Regular -ir verbs add the future endings straight onto the infinitive: finir + ai/as/a/ons/ez/ont."},
+ {c:"finir — il/elle (futur simple)", r:"finira", row:"futur", m:"Regular -ir verbs add the future endings straight onto the infinitive: finir + ai/as/a/ons/ez/ont."},
+ {c:"finir — nous (futur simple)", r:"finirons", row:"futur", m:"Regular -ir verbs add the future endings straight onto the infinitive: finir + ai/as/a/ons/ez/ont."},
+ {c:"finir — vous (futur simple)", r:"finirez", row:"futur", m:"Regular -ir verbs add the future endings straight onto the infinitive: finir + ai/as/a/ons/ez/ont."},
+ {c:"finir — ils/elles (futur simple)", r:"finiront", row:"futur", m:"Regular -ir verbs add the future endings straight onto the infinitive: finir + ai/as/a/ons/ez/ont."},
+ {c:"vendre — je (futur simple)", r:"vendrai", row:"futur", m:"Regular -re verbs drop the final -e before adding the future endings: vendr- + ai/as/a/ons/ez/ont."},
+ {c:"vendre — tu (futur simple)", r:"vendras", row:"futur", m:"Regular -re verbs drop the final -e before adding the future endings: vendr- + ai/as/a/ons/ez/ont."},
+ {c:"vendre — il/elle (futur simple)", r:"vendra", row:"futur", m:"Regular -re verbs drop the final -e before adding the future endings: vendr- + ai/as/a/ons/ez/ont."},
+ {c:"vendre — nous (futur simple)", r:"vendrons", row:"futur", m:"Regular -re verbs drop the final -e before adding the future endings: vendr- + ai/as/a/ons/ez/ont."},
+ {c:"vendre — vous (futur simple)", r:"vendrez", row:"futur", m:"Regular -re verbs drop the final -e before adding the future endings: vendr- + ai/as/a/ons/ez/ont."},
+ {c:"vendre — ils/elles (futur simple)", r:"vendront", row:"futur", m:"Regular -re verbs drop the final -e before adding the future endings: vendr- + ai/as/a/ons/ez/ont."},
+ {c:"pouvoir — je (futur simple)", r:"pourrai", row:"futur", m:"Irregular stem pourr- (double r) + the usual future endings — often heard as 'je pourrai' (I will be able to)."},
+ {c:"pouvoir — tu (futur simple)", r:"pourras", row:"futur", m:"Irregular stem pourr- (double r) + the usual future endings — often heard as 'je pourrai' (I will be able to)."},
+ {c:"pouvoir — il/elle (futur simple)", r:"pourra", row:"futur", m:"Irregular stem pourr- (double r) + the usual future endings — often heard as 'je pourrai' (I will be able to)."},
+ {c:"pouvoir — nous (futur simple)", r:"pourrons", row:"futur", m:"Irregular stem pourr- (double r) + the usual future endings — often heard as 'je pourrai' (I will be able to)."},
+ {c:"pouvoir — vous (futur simple)", r:"pourrez", row:"futur", m:"Irregular stem pourr- (double r) + the usual future endings — often heard as 'je pourrai' (I will be able to)."},
+ {c:"pouvoir — ils/elles (futur simple)", r:"pourront", row:"futur", m:"Irregular stem pourr- (double r) + the usual future endings — often heard as 'je pourrai' (I will be able to)."},
+ {c:"être — je (imparfait)", r:"étais", row:"imparfait", m:"Built on the irregular stem ét- + the regular imperfect endings (-ais, -ais, -ait, -ions, -iez, -aient)."},
+ {c:"être — tu (imparfait)", r:"étais", row:"imparfait", m:"Built on the irregular stem ét- + the regular imperfect endings (-ais, -ais, -ait, -ions, -iez, -aient)."},
+ {c:"être — il/elle (imparfait)", r:"était", row:"imparfait", m:"Built on the irregular stem ét- + the regular imperfect endings (-ais, -ais, -ait, -ions, -iez, -aient)."},
+ {c:"être — nous (imparfait)", r:"étions", row:"imparfait", m:"Built on the irregular stem ét- + the regular imperfect endings (-ais, -ais, -ait, -ions, -iez, -aient)."},
+ {c:"être — vous (imparfait)", r:"étiez", row:"imparfait", m:"Built on the irregular stem ét- + the regular imperfect endings (-ais, -ais, -ait, -ions, -iez, -aient)."},
+ {c:"être — ils/elles (imparfait)", r:"étaient", row:"imparfait", m:"Built on the irregular stem ét- + the regular imperfect endings (-ais, -ais, -ait, -ions, -iez, -aient)."},
+ {c:"avoir — je (imparfait)", r:"avais", row:"imparfait", m:"Regular stem av- (from avons) + the regular imperfect endings."},
+ {c:"avoir — tu (imparfait)", r:"avais", row:"imparfait", m:"Regular stem av- (from avons) + the regular imperfect endings."},
+ {c:"avoir — il/elle (imparfait)", r:"avait", row:"imparfait", m:"Regular stem av- (from avons) + the regular imperfect endings."},
+ {c:"avoir — nous (imparfait)", r:"avions", row:"imparfait", m:"Regular stem av- (from avons) + the regular imperfect endings."},
+ {c:"avoir — vous (imparfait)", r:"aviez", row:"imparfait", m:"Regular stem av- (from avons) + the regular imperfect endings."},
+ {c:"avoir — ils/elles (imparfait)", r:"avaient", row:"imparfait", m:"Regular stem av- (from avons) + the regular imperfect endings."},
+ {c:"aller — je (imparfait)", r:"allais", row:"imparfait", m:"Regular stem all- (from allons) + the regular imperfect endings."},
+ {c:"aller — tu (imparfait)", r:"allais", row:"imparfait", m:"Regular stem all- (from allons) + the regular imperfect endings."},
+ {c:"aller — il/elle (imparfait)", r:"allait", row:"imparfait", m:"Regular stem all- (from allons) + the regular imperfect endings."},
+ {c:"aller — nous (imparfait)", r:"allions", row:"imparfait", m:"Regular stem all- (from allons) + the regular imperfect endings."},
+ {c:"aller — vous (imparfait)", r:"alliez", row:"imparfait", m:"Regular stem all- (from allons) + the regular imperfect endings."},
+ {c:"aller — ils/elles (imparfait)", r:"allaient", row:"imparfait", m:"Regular stem all- (from allons) + the regular imperfect endings."},
+ {c:"faire — je (imparfait)", r:"faisais", row:"imparfait", m:"Stem fais- (from faisons) + the regular imperfect endings — pronounced with a 'euh' sound throughout."},
+ {c:"faire — tu (imparfait)", r:"faisais", row:"imparfait", m:"Stem fais- (from faisons) + the regular imperfect endings — pronounced with a 'euh' sound throughout."},
+ {c:"faire — il/elle (imparfait)", r:"faisait", row:"imparfait", m:"Stem fais- (from faisons) + the regular imperfect endings — pronounced with a 'euh' sound throughout."},
+ {c:"faire — nous (imparfait)", r:"faisions", row:"imparfait", m:"Stem fais- (from faisons) + the regular imperfect endings — pronounced with a 'euh' sound throughout."},
+ {c:"faire — vous (imparfait)", r:"faisiez", row:"imparfait", m:"Stem fais- (from faisons) + the regular imperfect endings — pronounced with a 'euh' sound throughout."},
+ {c:"faire — ils/elles (imparfait)", r:"faisaient", row:"imparfait", m:"Stem fais- (from faisons) + the regular imperfect endings — pronounced with a 'euh' sound throughout."},
+ {c:"parler — je (imparfait)", r:"parlais", row:"imparfait", m:"Stem parl- (from parlons) + the regular imperfect endings, the same pattern every regular verb follows."},
+ {c:"parler — tu (imparfait)", r:"parlais", row:"imparfait", m:"Stem parl- (from parlons) + the regular imperfect endings, the same pattern every regular verb follows."},
+ {c:"parler — il/elle (imparfait)", r:"parlait", row:"imparfait", m:"Stem parl- (from parlons) + the regular imperfect endings, the same pattern every regular verb follows."},
+ {c:"parler — nous (imparfait)", r:"parlions", row:"imparfait", m:"Stem parl- (from parlons) + the regular imperfect endings, the same pattern every regular verb follows."},
+ {c:"parler — vous (imparfait)", r:"parliez", row:"imparfait", m:"Stem parl- (from parlons) + the regular imperfect endings, the same pattern every regular verb follows."},
+ {c:"parler — ils/elles (imparfait)", r:"parlaient", row:"imparfait", m:"Stem parl- (from parlons) + the regular imperfect endings, the same pattern every regular verb follows."},
+ {c:"finir — je (imparfait)", r:"finissais", row:"imparfait", m:"Built on the -iss- stem (from finissons) + the regular imperfect endings."},
+ {c:"finir — tu (imparfait)", r:"finissais", row:"imparfait", m:"Built on the -iss- stem (from finissons) + the regular imperfect endings."},
+ {c:"finir — il/elle (imparfait)", r:"finissait", row:"imparfait", m:"Built on the -iss- stem (from finissons) + the regular imperfect endings."},
+ {c:"finir — nous (imparfait)", r:"finissions", row:"imparfait", m:"Built on the -iss- stem (from finissons) + the regular imperfect endings."},
+ {c:"finir — vous (imparfait)", r:"finissiez", row:"imparfait", m:"Built on the -iss- stem (from finissons) + the regular imperfect endings."},
+ {c:"finir — ils/elles (imparfait)", r:"finissaient", row:"imparfait", m:"Built on the -iss- stem (from finissons) + the regular imperfect endings."},
+ {c:"vendre — je (imparfait)", r:"vendais", row:"imparfait", m:"Stem vend- (from vendons) + the regular imperfect endings."},
+ {c:"vendre — tu (imparfait)", r:"vendais", row:"imparfait", m:"Stem vend- (from vendons) + the regular imperfect endings."},
+ {c:"vendre — il/elle (imparfait)", r:"vendait", row:"imparfait", m:"Stem vend- (from vendons) + the regular imperfect endings."},
+ {c:"vendre — nous (imparfait)", r:"vendions", row:"imparfait", m:"Stem vend- (from vendons) + the regular imperfect endings."},
+ {c:"vendre — vous (imparfait)", r:"vendiez", row:"imparfait", m:"Stem vend- (from vendons) + the regular imperfect endings."},
+ {c:"vendre — ils/elles (imparfait)", r:"vendaient", row:"imparfait", m:"Stem vend- (from vendons) + the regular imperfect endings."},
+ {c:"pouvoir — je (imparfait)", r:"pouvais", row:"imparfait", m:"Stem pouv- (from pouvons) + the regular imperfect endings."},
+ {c:"pouvoir — tu (imparfait)", r:"pouvais", row:"imparfait", m:"Stem pouv- (from pouvons) + the regular imperfect endings."},
+ {c:"pouvoir — il/elle (imparfait)", r:"pouvait", row:"imparfait", m:"Stem pouv- (from pouvons) + the regular imperfect endings."},
+ {c:"pouvoir — nous (imparfait)", r:"pouvions", row:"imparfait", m:"Stem pouv- (from pouvons) + the regular imperfect endings."},
+ {c:"pouvoir — vous (imparfait)", r:"pouviez", row:"imparfait", m:"Stem pouv- (from pouvons) + the regular imperfect endings."},
+ {c:"pouvoir — ils/elles (imparfait)", r:"pouvaient", row:"imparfait", m:"Stem pouv- (from pouvons) + the regular imperfect endings."}
+];
+
+const CATEGORIES = {
+  accents: {
+    label:"Accents",
+    data: ACCENTS_DATA,
+    isLetter: true,
+    rowOrder:["all","acute","grave","circumflex","diaeresis","cedilla","ligature"],
+    rowLabels:{all:"All", acute:"Acute (´)", grave:"Grave (`)", circumflex:"Circumflex (^)", diaeresis:"Diaeresis (¨)", cedilla:"Cedilla (¸)", ligature:"Ligatures"}
+  },
+  vocab: {
+    label:"Vocabulary",
+    data: VOCAB_DATA,
+    isLetter: false,
+    rowOrder:["all","greetings","numbers","family","food","colors","everyday","body"],
+    rowLabels:{all:"All", greetings:"Greetings", numbers:"Numbers", family:"Family", food:"Food", colors:"Colors", everyday:"Everyday", body:"Body parts"}
+  },
+  conj: {
+    label:"Conjugation",
+    data: CONJ_DATA,
+    isLetter: false,
+    rowOrder:["all","present","passecompose","futur","imparfait"],
+    rowLabels:{all:"All", present:"Présent", passecompose:"Passé composé", futur:"Futur simple", imparfait:"Imparfait"}
+  }
+};
+
+// ---- CATEGORY SWITCHING ----
+const CATEGORY_KEY = "french-trainer-category-v1";
+let currentCategory = "accents";
+
+function catConfig(){ return CATEGORIES[currentCategory]; }
+function activeData(){ return catConfig().data; }
+function currentRows(){ return catConfig().rowOrder; }
+function currentRowLabels(){ return catConfig().rowLabels; }
+function isLetterCategory(){ return !!catConfig().isLetter; }
+
+function loadCategoryPref(){
+  try{
+    const saved = localStorage.getItem(CATEGORY_KEY);
+    if(saved && CATEGORIES[saved]) currentCategory = saved;
+  }catch(e){ /* ignore */ }
+}
+
+function applyCategoryUI(){
+  document.querySelectorAll(".cat-btn").forEach(b=>{
+    const active = b.dataset.cat === currentCategory;
+    b.classList.toggle("active", active);
+    b.setAttribute("aria-pressed", active);
+  });
+}
+
+document.querySelectorAll(".cat-btn").forEach(b=>{
+  b.onclick = ()=>{
+    if(b.dataset.cat === currentCategory) return;
+    currentCategory = b.dataset.cat;
+    try{ localStorage.setItem(CATEGORY_KEY, currentCategory); }catch(e){ /* ignore */ }
+    applyCategoryUI();
+    currentFilter = "all";
+    renderFilters();
+    renderGrid();
+    updateKnownCount();
+    updateStudyProgress();
+    selectedQuizRows = new Set(QUIZ_ROW_KEYS());
+    renderQuizRowFilters();
+    updateSetupHint();
+    renderBestScore();
+    // an in-progress quiz mixes categories awkwardly, so bail back to setup on switch
+    if(document.getElementById("quiz-play").style.display !== "none"){
+      showQuizSetup();
+    }
+  };
+});
+
+let currentFilter = "all";
+let shuffleStudy = false;
+
+// ---- KNOWN ITEMS (study mode), namespaced per category ----
+const KNOWN_KEY = "french-trainer-known-items-v1";
+let knownChars = new Set();
+let hideKnown = false;
+
+function knownKey(item){ return currentCategory + "::" + item.c; }
+
+function loadKnownChars(){
+  try{
+    const raw = localStorage.getItem(KNOWN_KEY);
+    if(raw) knownChars = new Set(JSON.parse(raw));
+  }catch(e){ /* ignore */ }
+}
+function saveKnownChars(){
+  try{ localStorage.setItem(KNOWN_KEY, JSON.stringify(Array.from(knownChars))); }catch(e){ /* ignore */ }
+}
+function updateKnownCount(){
+  const knownInCat = activeData().filter(d=>knownChars.has(knownKey(d))).length;
+  document.getElementById("known-count").textContent = knownInCat;
+}
+function updateStudyProgress(){
+  const total = activeData().length;
+  const known = activeData().filter(d=>knownChars.has(knownKey(d))).length;
+  document.getElementById("progress-count").textContent = known + "/" + total;
+  document.getElementById("progress-fill").style.width = (total > 0 ? (known / total) * 100 : 0) + "%";
+}
+
+function renderFilters(){
+  const el = document.getElementById("filters");
+  el.innerHTML = "";
+  currentRows().forEach(row=>{
+    const b = document.createElement("button");
+    b.className = "chip" + (row===currentFilter ? " active" : "");
+    b.textContent = currentRowLabels()[row];
+    b.setAttribute("aria-pressed", row===currentFilter ? "true" : "false");
+    b.onclick = ()=>{ currentFilter = row; renderFilters(); renderGrid(); };
+    el.appendChild(b);
+  });
+}
+
+function renderGrid(){
+  const container = document.getElementById("grid-container");
+  container.innerHTML = "";
+  let items = currentFilter==="all" ? activeData() : activeData().filter(d=>d.row===currentFilter);
+  if(hideKnown) items = items.filter(d=>!knownChars.has(knownKey(d)));
+  if(shuffleStudy) items = shuffle(items);
+  const grid = document.createElement("div");
+  grid.className = "grid";
+  const letterMode = isLetterCategory();
+  items.forEach(item=>{
+    const isKnown = knownChars.has(knownKey(item));
+    const card = document.createElement("div");
+    card.className = "card" + (isKnown ? " known" : "");
+    card.setAttribute("tabindex","0");
+    card.setAttribute("role","button");
+    card.setAttribute("aria-label", "Flip card for " + item.c);
+    card.innerHTML = `
+      <div class="card-inner">
+        <div class="face face-front${letterMode ? " is-letter" : ""}">
+          <div class="char">${item.c}</div>
+          <div class="romaji-hint">tap to reveal</div>
+        </div>
+        <div class="face face-back">
+          <div class="romaji">${item.r}</div>
+          <div class="mnemonic">${item.m}</div>
+          <button type="button" class="mark-known-btn" aria-pressed="${isKnown}">${isKnown ? "★ Known" : "☆ Mark known"}</button>
+        </div>
+      </div>`;
+    const flip = ()=> card.classList.toggle("flipped");
+    card.onclick = flip;
+    card.onkeydown = (e)=>{
+      if(e.target !== card) return; // let the mark-known button handle its own keypresses
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        flip();
+      }
+    };
+    const markBtn = card.querySelector(".mark-known-btn");
+    markBtn.onclick = (e)=>{
+      e.stopPropagation();
+      const key = knownKey(item);
+      if(knownChars.has(key)){
+        knownChars.delete(key);
+      } else {
+        knownChars.add(key);
+      }
+      saveKnownChars();
+      updateKnownCount();
+      updateStudyProgress();
+      if(hideKnown){
+        renderGrid();
+      } else {
+        const nowKnown = knownChars.has(key);
+        markBtn.textContent = nowKnown ? "★ Known" : "☆ Mark known";
+        markBtn.setAttribute("aria-pressed", nowKnown);
+        card.classList.toggle("known", nowKnown);
+      }
+    };
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
+}
+
+loadCategoryPref();
+applyCategoryUI();
+loadKnownChars();
+document.getElementById("hide-known-toggle").onclick = function(){
+  hideKnown = !hideKnown;
+  this.classList.toggle("active", hideKnown);
+  this.setAttribute("aria-pressed", hideKnown);
+  renderGrid();
+};
+document.getElementById("shuffle-toggle").onclick = function(){
+  shuffleStudy = !shuffleStudy;
+  this.classList.toggle("active", shuffleStudy);
+  this.setAttribute("aria-pressed", shuffleStudy);
+  renderGrid();
+};
+updateKnownCount();
+updateStudyProgress();
+
+// tabs
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.onclick = ()=>{
+    clearTimer();
+    document.querySelectorAll(".tab").forEach(t=>{
+      t.classList.remove("active");
+      t.setAttribute("aria-selected","false");
+    });
+    document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+    tab.classList.add("active");
+    tab.setAttribute("aria-selected","true");
+    document.getElementById("panel-"+tab.dataset.tab).classList.add("active");
+    if(tab.dataset.tab==="quiz") showQuizSetup();
+  };
+});
+
+renderFilters();
+renderGrid();
+
+// ---- QUIZ LOGIC ----
+function QUIZ_ROW_KEYS(){ return currentRows().filter(r=>r!=="all"); }
+
+function getMaxQuestions(){
+  const poolLen = activeQuizPool().length;
+  return Math.min(150, Math.max(15, poolLen*3));
+}
+function historyKey(){
+  return "french-trainer-quiz-history-v1-" + currentCategory;
+}
+
+let selectedQuizRows = new Set(QUIZ_ROW_KEYS()); // which rows the quiz draws from
+let quizQuestions = [];
+let quizIdx = 0;
+let numQuestions = 15;
+let score = 0;
+let streak = 0;
+let answered = false;
+let quizMissed = [];      // items answered incorrectly this run
+let rowStats = {};        // {rowKey: {correct, total}} this run
+let currentQuizLabel = ""; // human-readable description of what was quizzed, for history
+let timedMode = false;
+let timerSeconds = 8;
+let timerInterval = null;
+let autoAdvance = true;
+let autoAdvanceTimeout = null;
+let maxStreakThisRun = 0;
+let quizMode = "choice"; // "choice" | "type"
+let quizDirection = "fwd"; // "fwd" (French -> English) | "rev" (English -> French)
+
+// which field is shown as the prompt / expected as the answer, based on direction
+function questionText(item){ return quizDirection === "rev" ? item.r : item.c; }
+function answerText(item){ return quizDirection === "rev" ? item.c : item.r; }
+
+// lenient comparison for typed answers: ignore accents/case/apostrophe style and
+// parenthetical gender tags, so typing "etes" still matches "êtes" and typing
+// "oeil" still matches "l'œil (m)"
+function normalizeAnswer(s){
+  return s
+    .replace(/\([^)]*\)/g, "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[œ]/g,"oe").replace(/[æ]/g,"ae")
+    .replace(/[’']/g,"'")
+    .replace(/\s+/g," ")
+    .trim().toLowerCase();
+}
+
+function clearAutoAdvance(){
+  if(autoAdvanceTimeout){
+    clearTimeout(autoAdvanceTimeout);
+    autoAdvanceTimeout = null;
+  }
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function uniqueByKey(arr, keyFn){
+  const seen = new Set();
+  const out = [];
+  arr.forEach(d=>{
+    const k = keyFn(d);
+    if(!seen.has(k)){ seen.add(k); out.push(d); }
+  });
+  return out;
+}
+
+function uniqueByChar(arr){
+  return uniqueByKey(arr, d=>d.c);
+}
+
+function activeQuizPool(){
+  return activeData().filter(d=>selectedQuizRows.has(d.row));
+}
+
+// build the question list: cycles through a shuffled pool as many times as
+// needed so a small selection can still support a large question count
+function buildQuizQuestions(pool, n){
+  let out = [];
+  while(out.length < n){
+    out = out.concat(shuffle(pool));
+  }
+  return out.slice(0, n);
+}
+
+function getWrongOptions(item){
+  const target = answerText(item);
+  let candidates = uniqueByKey(activeQuizPool().filter(d=>answerText(d) !== target), answerText);
+  if(candidates.length < 3){
+    const extra = uniqueByKey(activeData().filter(d=>answerText(d) !== target && !candidates.some(c=>answerText(c)===answerText(d))), answerText);
+    candidates = candidates.concat(extra);
+  }
+  return shuffle(candidates).slice(0,3).map(d=>answerText(d));
+}
+
+function renderQuizRowFilters(){
+  const el = document.getElementById("quiz-row-filters");
+  el.innerHTML = "";
+  const rowKeys = QUIZ_ROW_KEYS();
+  const labels = currentRowLabels();
+
+  const allActive = selectedQuizRows.size === rowKeys.length;
+  const allBtn = document.createElement("button");
+  allBtn.type = "button";
+  allBtn.className = "chip" + (allActive ? " active" : "");
+  allBtn.textContent = "All";
+  allBtn.setAttribute("aria-pressed", allActive ? "true" : "false");
+  allBtn.onclick = ()=>{
+    selectedQuizRows = new Set(rowKeys);
+    renderQuizRowFilters();
+    updateSetupHint();
+  };
+  el.appendChild(allBtn);
+
+  rowKeys.forEach(row=>{
+    const active = selectedQuizRows.has(row);
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip" + (active ? " active" : "");
+    b.textContent = labels[row];
+    b.setAttribute("aria-pressed", active ? "true" : "false");
+    b.onclick = ()=>{
+      if(selectedQuizRows.has(row)){
+        if(selectedQuizRows.size > 1) selectedQuizRows.delete(row); // always keep at least one row selected
+      } else {
+        selectedQuizRows.add(row);
+      }
+      renderQuizRowFilters();
+      updateSetupHint();
+    };
+    el.appendChild(b);
+  });
+}
+
+function updateSetupHint(){
+  const n = activeQuizPool().length;
+  const maxQ = getMaxQuestions();
+  const input = document.getElementById("q-num-questions");
+  input.max = maxQ;
+  const requested = parseInt(input.value, 10) || 0;
+  let msg = n + " item" + (n===1 ? "" : "s") + " in this selection.";
+  if(requested > n && n > 0 && requested <= maxQ){
+    msg += " Some will repeat to reach " + requested + " questions.";
+  }
+  if(requested > maxQ){
+    msg += " Max is " + maxQ + " questions for this selection — pick more categories to raise the cap.";
+  }
+  document.getElementById("q-max-hint").textContent = msg;
+}
+
+document.getElementById("q-timed-toggle").onchange = function(){
+  document.getElementById("q-timer-seconds").disabled = !this.checked;
+};
+
+document.querySelectorAll("#quiz-mode-toggle .chip").forEach(btn=>{
+  btn.onclick = ()=>{
+    quizMode = btn.dataset.mode;
+    document.querySelectorAll("#quiz-mode-toggle .chip").forEach(b=>{
+      const active = b.dataset.mode === quizMode;
+      b.classList.toggle("active", active);
+      b.setAttribute("aria-pressed", active);
+    });
+  };
+});
+
+document.querySelectorAll("#quiz-direction-toggle .chip").forEach(btn=>{
+  btn.onclick = ()=>{
+    quizDirection = btn.dataset.dir;
+    document.querySelectorAll("#quiz-direction-toggle .chip").forEach(b=>{
+      const active = b.dataset.dir === quizDirection;
+      b.classList.toggle("active", active);
+      b.setAttribute("aria-pressed", active);
+    });
+  };
+});
+
+document.getElementById("q-type-submit").onclick = submitTypedAnswer;
+document.getElementById("q-type-input").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    e.preventDefault();
+    if(!answered){
+      submitTypedAnswer();
+    } else {
+      const nextBtn = document.getElementById("q-next");
+      if(nextBtn.style.display !== "none"){
+        nextBtn.click();
+      }
+    }
+  }
+});
+
+function resetPlayDisplays(){
+  clearTimer();
+  clearAutoAdvance();
+  document.getElementById("q-char").style.display = "";
+  document.getElementById("q-options").style.display = "";
+  document.getElementById("quiz-type-answer").style.display = "none";
+  document.getElementById("q-feedback").style.display = "";
+  document.getElementById("quiz-results").style.display = "none";
+  document.getElementById("timer-wrap").style.display = "none";
+}
+
+function showQuizSetup(){
+  document.getElementById("quiz-play").style.display = "none";
+  resetPlayDisplays();
+  document.getElementById("quiz-setup").style.display = "block";
+  renderBestScore();
+}
+
+function updateStats(){
+  document.getElementById("q-score").textContent = score;
+  document.getElementById("q-streak").textContent = streak;
+  document.getElementById("q-count").textContent = Math.min(quizIdx, numQuestions) + "/" + numQuestions;
+}
+
+function loadQuestion(){
+  clearTimer();
+  clearAutoAdvance();
+  answered = false;
+  document.getElementById("q-next").style.display = "none";
+  document.getElementById("q-feedback").textContent = "";
+  if(quizIdx >= quizQuestions.length){
+    showResults();
+    return;
+  }
+  const item = quizQuestions[quizIdx];
+  document.getElementById("q-char").textContent = questionText(item);
+
+  const optDiv = document.getElementById("q-options");
+  const typeWrap = document.getElementById("quiz-type-answer");
+  const kbdHint = document.getElementById("kbd-hint");
+
+  if(quizMode === "type"){
+    optDiv.style.display = "none";
+    optDiv.innerHTML = "";
+    typeWrap.style.display = "flex";
+    kbdHint.textContent = "Press Enter to check, Enter again for next";
+    const input = document.getElementById("q-type-input");
+    input.value = "";
+    input.disabled = false;
+    input.classList.remove("correct","wrong");
+    document.getElementById("q-type-submit").disabled = false;
+    setTimeout(()=>{ input.focus(); }, 30);
+  } else {
+    typeWrap.style.display = "none";
+    kbdHint.textContent = "Press 1–4 to answer, Enter for next";
+    optDiv.style.display = "";
+    const wrongs = getWrongOptions(item);
+    const options = shuffle([answerText(item), ...wrongs]);
+    optDiv.innerHTML = "";
+    options.forEach(opt=>{
+      const b = document.createElement("button");
+      b.className = "opt-btn";
+      b.textContent = opt;
+      b.onclick = ()=> selectAnswer(b, opt, item);
+      optDiv.appendChild(b);
+    });
+  }
+  updateStats();
+
+  const timerWrap = document.getElementById("timer-wrap");
+  if(timedMode){
+    timerWrap.style.display = "block";
+    startTimer();
+  } else {
+    timerWrap.style.display = "none";
+  }
+}
+
+function startTimer(){
+  clearTimer();
+  const bar = document.getElementById("timer-bar");
+  bar.style.transition = "none";
+  bar.style.width = "100%";
+  bar.classList.remove("low");
+  void bar.offsetWidth; // force reflow so the transition re-applies cleanly
+  bar.style.transition = "width 0.1s linear, background-color 0.2s ease";
+
+  const totalMs = timerSeconds * 1000;
+  const startTime = Date.now();
+  timerInterval = setInterval(()=>{
+    const elapsed = Date.now() - startTime;
+    const remainingMs = Math.max(0, totalMs - elapsed);
+    const pct = (remainingMs / totalMs) * 100;
+    bar.style.width = pct + "%";
+    if(pct <= 25) bar.classList.add("low");
+    if(remainingMs <= 0){
+      clearTimer();
+      handleTimeout();
+    }
+  }, 100);
+}
+
+function clearTimer(){
+  if(timerInterval){
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+function handleTimeout(){
+  if(answered) return;
+  answered = true;
+  const item = quizQuestions[quizIdx];
+  const correct = answerText(item);
+  if(quizMode === "type"){
+    const input = document.getElementById("q-type-input");
+    input.disabled = true;
+    input.classList.add("wrong");
+    document.getElementById("q-type-submit").disabled = true;
+    document.getElementById("q-feedback").textContent = "Time's up — correct answer: " + correct;
+  } else {
+    const buttons = document.querySelectorAll(".opt-btn");
+    buttons.forEach(b=>{
+      b.disabled = true;
+      if(b.textContent === correct) b.classList.add("correct");
+    });
+    document.getElementById("q-feedback").textContent = "Time's up — correct answer highlighted.";
+  }
+  recordAnswerResult(false, item);
+}
+
+function recordAnswerResult(wasCorrect, item){
+  if(!rowStats[item.row]) rowStats[item.row] = {correct:0, total:0};
+  rowStats[item.row].total++;
+  if(wasCorrect){
+    score++;
+    streak++;
+    if(streak > maxStreakThisRun) maxStreakThisRun = streak;
+    rowStats[item.row].correct++;
+  } else {
+    streak = 0;
+    quizMissed.push(item);
+  }
+  quizIdx++;
+  updateStats();
+
+  if(wasCorrect && autoAdvance){
+    document.getElementById("q-next").style.display = "none";
+    autoAdvanceTimeout = setTimeout(loadQuestion, 550);
+  } else {
+    document.getElementById("q-next").style.display = "inline-block";
+  }
+}
+
+function selectAnswer(btn, chosen, item){
+  if(answered) return;
+  clearTimer();
+  answered = true;
+  const correct = answerText(item);
+  const buttons = document.querySelectorAll(".opt-btn");
+  buttons.forEach(b=>{
+    b.disabled = true;
+    if(b.textContent === correct) b.classList.add("correct");
+  });
+
+  const wasCorrect = chosen === correct;
+  if(wasCorrect){
+    document.getElementById("q-feedback").textContent = "Correct.";
+  } else {
+    btn.classList.add("wrong");
+    document.getElementById("q-feedback").textContent = "Not quite — correct answer highlighted.";
+  }
+  recordAnswerResult(wasCorrect, item);
+}
+
+function submitTypedAnswer(){
+  if(answered) return;
+  const item = quizQuestions[quizIdx];
+  const input = document.getElementById("q-type-input");
+  const raw = input.value.trim();
+  if(raw === ""){
+    input.focus();
+    return;
+  }
+  clearTimer();
+  answered = true;
+  input.disabled = true;
+  document.getElementById("q-type-submit").disabled = true;
+
+  const correct = answerText(item);
+  const wasCorrect = normalizeAnswer(raw) === normalizeAnswer(correct);
+  if(wasCorrect){
+    input.classList.add("correct");
+    document.getElementById("q-feedback").textContent = "Correct.";
+  } else {
+    input.classList.add("wrong");
+    document.getElementById("q-feedback").textContent = "Not quite — correct answer: " + correct;
+  }
+  recordAnswerResult(wasCorrect, item);
+}
+
+function showResults(){
+  document.getElementById("q-char").style.display = "none";
+  document.getElementById("q-options").style.display = "none";
+  document.getElementById("quiz-type-answer").style.display = "none";
+  document.getElementById("q-feedback").style.display = "none";
+  document.getElementById("q-next").style.display = "none";
+  document.getElementById("quiz-results").style.display = "block";
+
+  const pct = numQuestions > 0 ? Math.round((score / numQuestions) * 100) : 0;
+  document.getElementById("results-pct").textContent = pct + "%";
+  document.getElementById("results-summary").textContent = score + " / " + numQuestions + " correct";
+  document.getElementById("results-streak").textContent = maxStreakThisRun > 0
+    ? "Longest streak this run: " + maxStreakThisRun
+    : "";
+
+  // per-row breakdown, weakest rows first
+  const labels = currentRowLabels();
+  const breakdownEl = document.getElementById("row-breakdown");
+  breakdownEl.innerHTML = "";
+  Object.keys(rowStats)
+    .sort((a,b)=> (rowStats[a].correct/rowStats[a].total) - (rowStats[b].correct/rowStats[b].total))
+    .forEach(row=>{
+      const s = rowStats[row];
+      const rpct = Math.round((s.correct/s.total)*100);
+      const div = document.createElement("div");
+      div.className = "row-breakdown-item";
+      div.innerHTML = "<span>" + labels[row] + "</span><b>" + s.correct + "/" + s.total + " (" + rpct + "%)</b>";
+      breakdownEl.appendChild(div);
+    });
+
+  // missed items
+  const uniqueMissed = uniqueByChar(quizMissed);
+  const missedSection = document.getElementById("missed-section");
+  const missedList = document.getElementById("missed-list");
+  missedList.innerHTML = "";
+  if(uniqueMissed.length === 0){
+    missedSection.style.display = "none";
+  } else {
+    missedSection.style.display = "block";
+    uniqueMissed.forEach(item=>{
+      const chip = document.createElement("div");
+      chip.className = "missed-chip";
+      chip.innerHTML = "<div class=\"mc-char\">" + item.c + "</div><div class=\"mc-r\">" + item.r + "</div>";
+      missedList.appendChild(chip);
+    });
+  }
+  document.getElementById("practice-missed-btn").style.display = uniqueMissed.length > 0 ? "inline-block" : "none";
+
+  saveQuizResult(pct);
+}
+
+function startQuizWithPool(pool, n, label){
+  const rowKeys = QUIZ_ROW_KEYS();
+  const labels = currentRowLabels();
+  currentQuizLabel = label || (selectedQuizRows.size === rowKeys.length
+    ? "All categories"
+    : Array.from(selectedQuizRows).map(r=>labels[r]).join(", "));
+
+  timedMode = document.getElementById("q-timed-toggle").checked;
+  let secs = parseInt(document.getElementById("q-timer-seconds").value, 10);
+  if(isNaN(secs) || secs < 3) secs = 3;
+  if(secs > 60) secs = 60;
+  timerSeconds = secs;
+  autoAdvance = document.getElementById("q-autoadvance-toggle").checked;
+
+  numQuestions = n;
+  quizQuestions = buildQuizQuestions(pool, numQuestions);
+  quizIdx = 0;
+  score = 0;
+  streak = 0;
+  maxStreakThisRun = 0;
+  quizMissed = [];
+  rowStats = {};
+  document.getElementById("quiz-setup").style.display = "none";
+  resetPlayDisplays();
+  document.getElementById("quiz-play").style.display = "block";
+  updateStats();
+  loadQuestion();
+}
+
+// ---- persistence: best score, best streak & recent history (saved in this browser) ----
+function saveQuizResult(pct){
+  try{
+    const raw = localStorage.getItem(historyKey());
+    const data = raw ? JSON.parse(raw) : {best:null, bestStreak:0, history:[]};
+    if(typeof data.bestStreak !== "number") data.bestStreak = 0;
+    const entry = {pct:pct, score:score, total:numQuestions, rows:currentQuizLabel, date:new Date().toISOString()};
+    data.history.unshift(entry);
+    data.history = data.history.slice(0,5);
+    if(!data.best || pct > data.best.pct){
+      data.best = entry;
+    }
+    if(maxStreakThisRun > data.bestStreak){
+      data.bestStreak = maxStreakThisRun;
+    }
+    localStorage.setItem(historyKey(), JSON.stringify(data));
+  }catch(e){
+    // localStorage unavailable (private browsing etc.) — fail silently
+  }
+}
+
+function renderBestScore(){
+  const block = document.getElementById("history-block");
+  const bestLine = document.getElementById("best-score-line");
+  const listEl = document.getElementById("history-list");
+  const toggleBtn = document.getElementById("toggle-history-btn");
+  try{
+    const raw = localStorage.getItem(historyKey());
+    if(!raw){ block.style.display = "none"; return; }
+    const data = JSON.parse(raw);
+    if(!data.best){ block.style.display = "none"; return; }
+    block.style.display = "block";
+    bestLine.textContent = "Best: " + data.best.pct + "% (" + data.best.score + "/" + data.best.total + ") — " + data.best.rows +
+      (data.bestStreak ? " · Best streak: " + data.bestStreak : "");
+    listEl.innerHTML = "";
+    (data.history || []).forEach(entry=>{
+      const d = new Date(entry.date);
+      const div = document.createElement("div");
+      div.className = "history-item";
+      div.textContent = entry.pct + "% (" + entry.score + "/" + entry.total + ") — " + entry.rows + " — " + d.toLocaleDateString() + " " + d.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
+      listEl.appendChild(div);
+    });
+    // keep details collapsed by default each time the setup screen appears
+    listEl.style.display = "none";
+    toggleBtn.textContent = "Show details";
+  }catch(e){
+    block.style.display = "none";
+  }
+}
+
+document.getElementById("toggle-history-btn").onclick = function(){
+  const listEl = document.getElementById("history-list");
+  const isHidden = listEl.style.display === "none";
+  listEl.style.display = isHidden ? "block" : "none";
+  this.textContent = isHidden ? "Hide details" : "Show details";
+};
+
+let clearConfirmTimeout = null;
+document.getElementById("clear-history-btn").onclick = function(){
+  if(this.dataset.confirming === "true"){
+    // second click within the window — actually clear
+    clearTimeout(clearConfirmTimeout);
+    this.dataset.confirming = "false";
+    this.textContent = "Clear";
+    try{ localStorage.removeItem(historyKey()); }catch(e){ /* ignore */ }
+    document.getElementById("history-block").style.display = "none";
+    document.getElementById("history-list").innerHTML = "";
+    return;
+  }
+  // first click — arm the confirmation
+  this.dataset.confirming = "true";
+  this.textContent = "Click again to confirm";
+  const btn = this;
+  clearConfirmTimeout = setTimeout(()=>{
+    btn.dataset.confirming = "false";
+    btn.textContent = "Clear";
+  }, 4000);
+};
+
+document.getElementById("q-start").onclick = ()=>{
+  const pool = activeQuizPool();
+  if(pool.length === 0) return;
+  const maxQ = getMaxQuestions();
+  let requested = parseInt(document.getElementById("q-num-questions").value, 10);
+  if(isNaN(requested) || requested < 1) requested = 1;
+  if(requested > maxQ) requested = maxQ;
+  startQuizWithPool(pool, requested);
+};
+
+document.getElementById("practice-missed-btn").onclick = ()=>{
+  const uniqueMissed = uniqueByChar(quizMissed);
+  if(uniqueMissed.length === 0) return;
+  startQuizWithPool(uniqueMissed, Math.min(uniqueMissed.length, 150), "Practice: missed items");
+};
+
+document.getElementById("results-new-quiz").onclick = showQuizSetup;
+document.getElementById("q-num-questions").oninput = updateSetupHint;
+document.getElementById("q-next").onclick = loadQuestion;
+document.getElementById("q-restart").onclick = showQuizSetup;
+
+// keyboard shortcuts: 1-4 picks an answer, Enter advances to the next question
+document.addEventListener("keydown", (e)=>{
+  const quizPanelActive = document.getElementById("panel-quiz").classList.contains("active");
+  if(!quizPanelActive) return;
+  const activeTag = (document.activeElement && document.activeElement.tagName) || "";
+  if(activeTag === "INPUT" || activeTag === "TEXTAREA") return;
+  const playVisible = document.getElementById("quiz-play").style.display !== "none";
+  if(!playVisible) return;
+
+  if(["1","2","3","4"].includes(e.key)){
+    const idx = parseInt(e.key, 10) - 1;
+    const buttons = document.querySelectorAll("#q-options .opt-btn");
+    if(buttons[idx] && !buttons[idx].disabled){
+      buttons[idx].click();
+    }
+  } else if(e.key === "Enter"){
+    const nextBtn = document.getElementById("q-next");
+    if(nextBtn.style.display !== "none"){
+      e.preventDefault();
+      nextBtn.click();
+    }
+  }
+});
+
+renderQuizRowFilters();
+updateSetupHint();
+renderBestScore();
+</script>
+</body>
+</html>
